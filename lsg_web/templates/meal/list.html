@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Index{% endblock %}
+{% block title %}List meal{% endblock %}
 
 
 {% block content %}
@@ -31,7 +31,9 @@
                                         <th scope="col-2">Menu Name</th>
                                         <th scope="col-2">Menu information</th>
                                         <th scope="col-2">ID Tray</th>
-                                        <th scope="col-1">FINISHED</th>
+                                        {% if g.user['id_permission'] == 1  %}
+                                            <th scope="col-1">Edit</th>
+                                        {%endif%}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,11 +44,9 @@
                                             <td>{{ meal['mname'] }}</td>
                                             <td>{{ meal['minformations'] }}</td>
                                             <td>{{ meal['tname'] }}</td>
-                                            <td>
-                                            {% if g.user['id_permission'] == 1 or g.user['id_user'] == meal['uid'] %}
-                                                <a class="fas fa-check btn btn-success btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/finished"></a>
+                                            {% if g.user['id_permission'] == 1  %}
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/edit"></a></td>
                                             {% endif %}
-                                            </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

@@ -51,4 +51,7 @@ def create_app(test_config=None):
     from . import menu
     app.register_blueprint(menu.bp)
 
+    from . import meal
+    app.register_blueprint(meal.bp)
+
     return app

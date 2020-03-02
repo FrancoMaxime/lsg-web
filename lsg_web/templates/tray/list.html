@@ -37,6 +37,7 @@
                                         {% endif %}
                                         <th scope="col-2">Online</th>
                                         {% if g.user['id_permission'] == 1 %}
+                                            <th scope="col-1">On Use</th>
                                             <th scope="col-1">Desactivate</th>
                                             <th scope="col-1">Edit</th>
                                         {% endif %}
@@ -58,11 +59,23 @@
                                                     <i class="fas fa-unlink"></i>
                                                 </span>
                                             {% else %}
-                                                <span style="font-size: 48px; color: green;">
+                                                <span style="font-size: 1.5em; color: green;">
                                                     <i class="fas fa-link"></i>
                                                 </span>
                                             {% endif %}
                                             </td>
+                                            <td>
+                                            {% if tray['on_use'] == 1 %}
+                                                <span style="font-size: 1.5em; color: red;">
+                                                    <i class="fas fa-user-clock"></i>
+                                                </span>
+                                            {% else %}
+                                                <span style="font-size: 1.5em; color: green;">
+                                                    <i class="fas fa-user-slash"></i>
+                                                </span>
+                                            {% endif %}
+                                            </td>
+
                                             {% if g.user['id_permission'] == 1 %}
                                                 <td><form action="/tray/{{ tray['id_tray'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
                                                 <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/tray/{{ tray['id_tray'] }}/edit"></a></td>

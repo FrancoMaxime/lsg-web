@@ -13,7 +13,7 @@ bp = Blueprint('tray', __name__, url_prefix='/tray')
 def listing():
     db = get_db()
     trays = db.execute(
-        'SELECT t.name as tname, v.name as vname, t.informations as informations, ip, online '
+        'SELECT t.name as tname, v.name as vname, t.informations as informations, ip, online, t.on_use as on_use '
         'FROM tray t INNER JOIN version v on t.id_version = v.id_version ORDER BY id_tray ASC'
     ).fetchall()
     return render_template('tray/list.html', trays=trays)
@@ -42,9 +42,9 @@ def create():
             flash(error)
         else:
             db.execute(
-                'INSERT INTO tray (name, id_version, informations, ip, online, actif)'
-                ' VALUES (?, ?, ?, ?, ?, ?)',
-                (name, version, informations, "None", 0, 1)
+                'INSERT INTO tray (name, id_version, informations, ip, online, actif, on_use)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+                (name, version, informations, "None", 0, 1, 0)
             )
             db.commit()
             return redirect(url_for('tray.listing'))

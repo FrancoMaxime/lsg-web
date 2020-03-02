@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Add meal{% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Add Meal</h4>
+                </div>
+                <div class="page-category">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Add meal</div>
+                            </div>
+                            <div class="card-body">
+                                <form action="/meal/create" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="menu">Menu</label>
+                                                <select class="form-control" id="menu" name="menu">
+                                                    {% for menu in menus %}
+                                                        <option value="{{ menu['id_menu'] }}">{{ menu['name'] }}</option>
+                                                    {% endfor %}}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="tray">Tray</label>
+                                                <select class="form-control" id="tray" name="tray">
+                                                    {% for tray in trays %}
+                                                        <option value="{{ tray['id_tray'] }}">{{ tray['name'] }}</option>
+                                                    {% endfor %}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

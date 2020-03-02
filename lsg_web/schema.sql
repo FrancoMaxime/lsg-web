@@ -48,6 +48,7 @@ CREATE TABLE tray(
     ip TEXT NOT NULL,
     online INTEGER NOT NULL,
     actif INTEGER NOT NULL,
+    on_use INTEGER NOT NULL,
     FOREIGN KEY (id_version) REFERENCES version(id_version)
 );
 

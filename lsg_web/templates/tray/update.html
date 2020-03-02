@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Update tray{% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Update Tray</h4>
+                </div>
+                <div class="page-category">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Update {{ tray['name'] }}</div>
+                            </div>
+                            <div class="card-body">
+                                <form name="test" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Name</b></label>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter tray Name" value="{{ tray['name'] }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="version">Version</label>
+                                                <select class="form-control" id="version" name="version">
+                                                    {% for version in versions %}
+                                                        <option value="{{ version['id_version'] }}"
+                                                        {% if tray['id_version'] == version['id_version'] %}
+                                                            selected="selected"
+                                                        {% endif %}
+                                                        >{{ version['name'] }}</option>
+                                                    {% endfor %}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Informations</b></label>
+                                                <input name="informations" id="informations" type="text" class="form-control" placeholder="Enter Informations" value="{{ tray['informations'] }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Actif</label>
+                                                <input name="actif" id="actif" type="checkbox" data-toggle="toggle"
+                                                {% if tray['actif'] == 1 %}
+                                                    checked
+                                                {% endif %}
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

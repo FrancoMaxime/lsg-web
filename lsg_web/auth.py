@@ -25,10 +25,13 @@ def login():
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
+        elif user['actif'] == 0:
+            error = 'Account desactivated'
 
         if error is None:
             session.clear()
             session['id_user'] = user['id_user']
+            session['id_permission'] = user['id_permission']
             return redirect(url_for('index'))
 
         flash(error)
@@ -42,9 +45,13 @@ def load_logged_in_user():
 
     if id_user is None:
         g.user = None
+        g.group = None
     else:
         g.user = get_db().execute(
             'SELECT * FROM user WHERE id_user = ?', (id_user,)
+        ).fetchone()
+        g.group = get_db().execute(
+            "SELECT * FROM permission WHERE id_permission = ?", (g.user['id_permission'],)
         ).fetchone()
 
 

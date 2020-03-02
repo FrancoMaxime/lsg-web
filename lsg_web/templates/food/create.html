@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Add Food{% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Add Food</h4>
+                </div>
+                <div class="page-category">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Add Food</div>
+                            </div>
+                            <div class="card-body">
+                                <form action="/food/create" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Name</b></label>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter Food Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="category">Category</label>
+                                                <select class="form-control" id="category" name="category">
+                                                    {% for category in categories %}
+                                                        <option value="{{ category['id_category'] }}">{{ category['name'] }}</option>
+                                                    {% endfor %}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Informations</b></label>
+                                                <input name="informations" id="informations" type="text" class="form-control" placeholder="Enter Informations" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Update Menu{% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Update Menu</h4>
+                </div>
+                <div class="page-category">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Update {{menu['name'] }}</div>
+                            </div>
+                            <div class="card-body">
+                                <form  method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Name</b></label>
+                                                <input name="name" id="name" type="text" class="form-control" value="{{menu['name'] }}" placeholder="Enter menu name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Informations</b></label>
+                                                <input name="informations" id="informations" type="text" class="form-control" value="{{menu['informations'] }}" placeholder="Enter informations" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Actif</label>
+                                            <input name="actif" id="actif" type="checkbox" data-toggle="toggle"
+                                            {% if menu['actif'] == 1 %}
+                                                checked
+                                            {% endif %}
+                                            >
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

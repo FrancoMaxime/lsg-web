@@ -39,4 +39,16 @@ def create_app(test_config=None):
     app.register_blueprint(homepage.bp)
     app.add_url_rule('/', endpoint='index')
 
+    from . import user
+    app.register_blueprint(user.bp)
+
+    from . import food
+    app.register_blueprint(food.bp)
+
+    from . import tray
+    app.register_blueprint(tray.bp)
+
+    from . import menu
+    app.register_blueprint(menu.bp)
+
     return app

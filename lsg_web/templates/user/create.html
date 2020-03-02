@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Add User</h4>
+                </div>
+                <div class="page-category">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Add User</div>
+                            </div>
+                            <div class="card-body">
+                                <form action="/user/create" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Name</b></label>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label for="mail">Email Address</label>
+                                                <input type="email" class="form-control" name ="mail" id="mail" placeholder="Enter Email">
+                                                <small id="emailHelp2" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label for="password1" class="placeholder"><b>Password</b></label>
+                                                <input id="password1" name="password1" type="password" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label for="password2" class="placeholder"><b>Retype password</b></label>
+                                                <input id="password2" name="password2" type="password" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="permission">Permission</label>
+                                                <select class="form-control" id="permission" name="permission">
+                                                    <option value="1">Administrator</option>
+                                                    <option value="2" selected="selected">Simple User</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Birthdate</b></label>
+                                                <input name="birthdate" id="birthdate" type="date" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="gender">Gender</label>
+                                                <select class="form-control" id="gender" name="gender">
+                                                    <option value="homme">Homme</option>
+                                                    <option value="femme">Femme</option>
+                                                    <option value="autre">Autre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Weight</b></label>
+                                                <input name="weight" id="weight" type="text" class="form-control" placeholder="Enter Weight" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

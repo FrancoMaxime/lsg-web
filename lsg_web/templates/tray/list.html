@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+
+{% block title %}List tray{% endblock %}
+
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Trays</h4>
+                </div>
+                <div class="page-category">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div class="card-title">List</div>
+                                {% if g.user['id_permission'] == 1 %}
+                                    <a class="btn btn-warning btn-round ml-auto" href="/tray/create">
+                                        <i class="fa fa-plus"></i>
+                                        Add a new tray
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-head-bg-warning">
+                                <thead>
+                                    <tr>
+                                        <th scope="col-1">#</th>
+                                        <th scope="col-2">Name</th>
+                                        <th scope="col-2">Version</th>
+                                        <th scope="col-2">infos</th>
+                                        {% if g.user['id_permission'] == 1 %}
+                                            <th scope="col-1">IP</th>
+                                        {% endif %}
+                                        <th scope="col-2">Online</th>
+                                        {% if g.user['id_permission'] == 1 %}
+                                            <th scope="col-1">Desactivate</th>
+                                            <th scope="col-1">Edit</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tray in trays %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{ tray['tname'] }}</td>
+                                            <td>{{ tray['vname'] }}</td>
+                                            <td>{{ tray['informations'] }}</td>
+                                            {% if g.user['id_permission'] == 1 %}
+                                                <td>{{ tray['ip'] }}</td>
+                                            {% endif %}
+                                            <td>
+                                            {% if tray['online'] == 0 %}
+                                                <span style="font-size: 1.5em; color: red;">
+                                                    <i class="fas fa-unlink"></i>
+                                                </span>
+                                            {% else %}
+                                                <span style="font-size: 48px; color: green;">
+                                                    <i class="fas fa-link"></i>
+                                                </span>
+                                            {% endif %}
+                                            </td>
+                                            {% if g.user['id_permission'] == 1 %}
+                                                <td><form action="/tray/{{ tray['id_tray'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/tray/{{ tray['id_tray'] }}/edit"></a></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

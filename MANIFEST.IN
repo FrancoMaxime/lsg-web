@@ -1,0 +1,4 @@
+include lsg_web/schema.sql
+graft lsg_web/static
+graft lsg_web/templates
+global-exclude *.pyc

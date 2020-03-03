@@ -8,16 +8,34 @@
         <div class="content">
             <div class="page-inner">
                 <div class="page-header">
-                    <h4 class="page-title">Update User</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/user/list">User</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/user/{{ user['id_user'] }}/update">Update</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="page-category">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">Update User</div>
+                                <div class="card-title">Update {{ user['name'] }}</div>
                             </div>
                             <div class="card-body">
-                                <form method="post">
+                                <form name="test" method="post">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
@@ -50,8 +68,16 @@
                                                 <div class="form-group form-group-default form-check">
                                                     <label for="permission">Permission</label>
                                                     <select class="form-control" id="permission" name="permission">
-                                                        <option value="1">Administrator</option>
-                                                        <option value="2" selected="selected">Simple User</option>
+                                                        <option value="1"
+                                                        {% if user['id_permission'] == 1 %}
+                                                            selected="selected"
+                                                        {% endif %}
+                                                        >Administrator</option>
+                                                        <option value="2"
+                                                        {% if user['id_permission'] == 2 %}
+                                                            selected="selected"
+                                                        {% endif %}
+                                                        >Simple User</option>
                                                     </select>
                                                 </div>
                                             </div>

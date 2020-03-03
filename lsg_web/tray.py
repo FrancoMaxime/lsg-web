@@ -10,10 +10,11 @@ bp = Blueprint('tray', __name__, url_prefix='/tray')
 
 
 @bp.route('/list')
+@login_required
 def listing():
     db = get_db()
     trays = db.execute(
-        'SELECT t.name as tname, v.name as vname, t.informations as informations, ip, online, t.on_use as on_use '
+        'SELECT t.id_tray as id_tray,t.name as tname, v.name as vname, t.informations as informations, ip, online, t.on_use as on_use '
         'FROM tray t INNER JOIN version v on t.id_version = v.id_version ORDER BY id_tray ASC'
     ).fetchall()
     return render_template('tray/list.html', trays=trays)

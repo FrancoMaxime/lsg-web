@@ -18,13 +18,13 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="/food/list">Foods</a>
+                            <a href="/version/list">Versions</a>
                         </li>
                         <li class="separator">
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="/food/create">Create a food</a>
+                            <a href="/version/create">Create a new version</a>
                         </li>
                     </ul>
                 </div>
@@ -32,31 +32,23 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">Add Food</div>
+                                <div class="card-title">Add version</div>
                             </div>
                             <div class="card-body">
-                                <form action="/food/create" method="post">
+                                <form action="/version/create" method="post">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label><b>Name</b></label>
-                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter Food Name" required>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter a version name" required>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group form-group-default form-check">
-                                                <label for="category">Category</label>
-                                                <select class="form-control" id="category" name="category">
-                                                    {% for category in categories %}
-                                                        <option value="{{ category['id_category'] }}">{{ category['name'] }}</option>
-                                                    {% endfor %}}
-                                                </select>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
-                                                <label><b>Informations</b></label>
-                                                <input name="informations" id="informations" type="text" class="form-control" placeholder="Enter Informations" required>
+                                                <label><b>Released date</b></label>
+                                                <input name="date" id="date" type="date" class="form-control"  required>
                                             </div>
                                         </div>
                                     </div>

@@ -8,7 +8,9 @@ from lsg_web.db import get_db
 
 bp = Blueprint('menu', __name__, url_prefix='/menu')
 
+
 @bp.route('/list')
+@login_required
 def listing():
     db = get_db()
     menus = db.execute(
@@ -165,8 +167,6 @@ def copy(id):
     id_copy = db.execute(
         "SELECT last_insert_rowid();"
     ).fetchone()[0]
-
-    print(str(id_copy))
 
     all_composed = db.execute(
         "SELECT * FROM composed WHERE id_menu = ?",

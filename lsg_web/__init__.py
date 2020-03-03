@@ -26,11 +26,21 @@ def create_app(test_config=None):
 
     # a simple page that says hello
     @app.route('/running')
-    def hello():
+    def running():
         return 'Server running'
 
     from . import db
     db.init_app(app)
+
+    @app.context_processor
+    def utility_processor():
+        def current_meal():
+            tmp = db.get_db()
+            return tmp.execute(
+                'SELECT count(id_meal) FROM meal WHERE end IS NULL'
+            ).fetchone()[0]
+
+        return dict(current_meal=current_meal)
 
     from . import auth
     app.register_blueprint(auth.bp)
@@ -53,5 +63,14 @@ def create_app(test_config=None):
 
     from . import meal
     app.register_blueprint(meal.bp)
+
+    from . import version
+    app.register_blueprint(version.bp)
+
+    from . import category
+    app.register_blueprint(category.bp)
+
+    from . import bug
+    app.register_blueprint(bug.bp)
 
     return app

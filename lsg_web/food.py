@@ -10,6 +10,7 @@ bp = Blueprint('food', __name__, url_prefix='/food')
 
 
 @bp.route('/list')
+@login_required
 def listing():
     db = get_db()
     foods = db.execute(

@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS permission;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS version;
 DROP TABLE IF EXISTS composed;
+DROP TABLE IF EXISTS bug;
 
 CREATE TABLE user (
     id_user INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,6 +79,13 @@ CREATE TABLE version(
     id_version INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     release_date DATE NOT NULL
+);
+CREATE TABLE bug(
+    id_bug INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    informations TEXT NOT NULL,
+    bug_date DATE NOT NULL,
+    corrected INTEGER NOT NULL
 );
 
 CREATE TABLE composed(

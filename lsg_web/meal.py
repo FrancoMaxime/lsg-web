@@ -10,6 +10,7 @@ bp = Blueprint('meal', __name__, url_prefix='/meal')
 
 
 @bp.route('/list')
+@login_required
 def listing():
     db = get_db()
     meals = db.execute(
@@ -39,7 +40,7 @@ def create():
                 (request.form['tray'],)
             )
             db.commit()
-            return redirect(url_for('meal.listing'))
+            return redirect(url_for('index'))
 
     menus = get_db().execute('SELECT * FROM menu WHERE actif = 1').fetchall()
     trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0').fetchall()
@@ -87,4 +88,4 @@ def finished(id):
     db.execute('UPDATE meal SET end = datetime("now") WHERE id_meal = ?', (id,))
     db.execute('UPDATE tray SET on_use = 0 WHERE id_tray = ?', (meal['id_tray'],))
     db.commit()
-    return redirect(url_for('tray.listing'))
+    return redirect(url_for('meal.listing'))

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Index{% endblock %}
+{% block title %}Categories{% endblock %}
 
 
 {% block content %}
@@ -15,16 +15,22 @@
                                 <i class="flaticon-home"></i>
                             </a>
                         </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/bug/list">Bugs/Suggestions</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="page-category">
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <div class="card-title">Active Meals</div>
-                                <a class="btn btn-warning btn-round ml-auto" href="/meal/create">
+                                <div class="card-title">Categories</div>
+                                <a class="btn btn-warning btn-round ml-auto" href="/bug/create">
                                     <i class="fa fa-plus"></i>
-                                    Add a new meal
+                                    Add a new bug or suggestion
                                 </a>
                             </div>
                         </div>
@@ -33,26 +39,22 @@
                                 <thead>
                                     <tr>
                                         <th scope="col-1">#</th>
-                                        <th scope="col-2">User</th>
-                                        <th scope="col-2">Menu Name</th>
-                                        <th scope="col-2">Menu information</th>
-                                        <th scope="col-2">ID Tray</th>
-                                        <th scope="col-1">FINISHED</th>
+                                        <th scope="col-2">Title</th>
+                                        <th scope="col-2">Informations</th>
+                                        {% if g.user['id_permission'] == 1 %}
+                                            <th scope="col-1">Corrected</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for meal in meals %}
+                                    {% for bug in bugs %}
                                         <tr>
                                             <td>{{loop.index}}</td>
-                                            <td>{{ meal['uname'] }}</td>
-                                            <td>{{ meal['mname'] }}</td>
-                                            <td>{{ meal['minformations'] }}</td>
-                                            <td>{{ meal['tname'] }}</td>
-                                            <td>
-                                            {% if g.user['id_permission'] == 1 or g.user['id_user'] == meal['uid'] %}
-                                                <a class="fas fa-check btn btn-success btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/finished"></a>
+                                            <td>{{ bug['title'] }}</td>
+                                            <td>{{ bug['informations'] }}</td>
+                                            {% if g.user['id_permission'] == 1 %}
+                                                <td><form action="/bug/{{ bug['id_bug'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
                                             {% endif %}
-                                            </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

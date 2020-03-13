@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from flask import current_app as app
+from flask import send_from_directory
 
 from werkzeug.exceptions import abort
 
@@ -45,7 +46,7 @@ def create():
                 (request.form['tray'],)
             )
             trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (request.form['tray'],)).fetchone()[0]
-            publish.single("lsg/"+trayname, "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
+            publish.single("lsg/" + trayname.lower(), "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
             db.commit()
             return redirect(url_for('index'))
 
@@ -94,7 +95,26 @@ def finished(id):
     db = get_db()
     db.execute('UPDATE meal SET end = datetime("now") WHERE id_meal = ?', (id,))
     db.execute('UPDATE tray SET on_use = 0 WHERE id_tray = ?', (meal['id_tray'],))
-    trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (request.form['tray'],)).fetchone()[0]
-    publish.single("lsg/" + trayname, "SERVER\tEND MEAL\t", hostname=app.config['MQTT_BROKER_URL'])
+    trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (meal['id_tray'],)).fetchone()[0]
+    publish.single("lsg/" + trayname.lower(), "SERVER\tEND MEAL\t", hostname=app.config['MQTT_BROKER_URL'])
     db.commit()
     return redirect(url_for('meal.listing'))
+
+
+@bp.route('/<int:id>/info', methods=('GET',))
+@login_required
+def info(id):
+    db = get_db()
+    meal = db.execute(
+        'SELECT id_meal, u.name as uname, m.name as mname, m.informations as minformations, t.name as tname, m.id_menu as idmenu '
+        'FROM meal p JOIN user u ON p.id_user = u.id_user JOIN menu m ON m.id_menu = p.id_menu JOIN tray t ON t.id_tray = p.id_tray WHERE id_meal = ? ORDER BY p.id_meal ASC',
+        (id,)
+    ).fetchone()
+    return render_template('meal/info.html', meal=meal, imgname="data/" + str(id) + ".png")
+
+
+@bp.route('/<int:id>/uploads', methods=['GET', 'POST'])
+@login_required
+def download(id):
+    filename = str(id) + ".csv"
+    return send_from_directory(app.config["DATA_UPLOADS"], filename=filename)

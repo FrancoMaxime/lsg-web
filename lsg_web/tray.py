@@ -145,14 +145,27 @@ def data():
             error = "You must select an image."
         else:
             data = request.files["data"]
+            image = request.files["image"]
             filename = secure_filename(data.filename)
+            fimage = secure_filename(image.filename)
             ext = filename.rsplit(".", 1)[1]
+            ext2 = fimage.rsplit(".", 1)[1]
             if filename == "":
                 error = "No Filename."
             elif ext not in ("txt", "csv"):
                 error = "Bad type of file"
+
+            if fimage == "":
+                error = "No Filename."
+            elif ext2 not in ("png", "jpeg", "jpg"):
+                error = "Bad type of file"
+
             if error is None :
                 data.save(os.path.join(app.config["DATA_UPLOADS"], filename))
+                image.save(os.path.join(app.config["DATA_UPLOADS"], fimage))
                 return jsonify(success=True)
     return abort(404, "Error : " + str(error))
+
+
+
 

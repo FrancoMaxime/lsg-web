@@ -3,7 +3,7 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 from lsg_web.db import get_db
 
@@ -66,6 +66,8 @@ def login_required(view):
     def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
+        #g.db.execute('UPDATE tray SET online = 0 WHERE timestamp < datetime("now", "-30 seconds")')
+        #g.db.commit()
 
         return view(**kwargs)
 

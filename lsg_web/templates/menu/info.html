@@ -97,7 +97,7 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Composed</div>
-                                {% if g.user['id_permission'] == 1 %}
+                                {% if g.user['id_permission'] == 1 or g.user['id_user'] == menu['id_user']%}
                                     <a class="btn btn-warning btn-round ml-auto" href="/menu/{{menu['id_menu']}}/add">
                                         <i class="fa fa-plus"></i>
                                         Add a new component
@@ -113,6 +113,9 @@
                                         <th scope="col-2">Name</th>
                                         <th scope="col-2">Category</th>
                                         <th scope="col-2">Informations</th>
+                                        {% if g.user['id_permission'] == 1 or g.user['id_user'] == menu['id_user']%}
+                                            <th scope="col-2">Remove</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -122,6 +125,9 @@
                                             <td>{{ comp['fname'] }}</td>
                                             <td>{{ comp['cname'] }}</td>
                                             <td>{{ comp['informations'] }}</td>
+                                            {% if g.user['id_permission'] == 1 or g.user['id_user'] == menu['id_user']%}
+                                                <td><form action="/menu/{{ menu['id_menu'] }}/{{ comp['idfood'] }}/remove" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
+                                            {% endif %}
                                         </tr>
                                     {% endfor %}
                                 </tbody>

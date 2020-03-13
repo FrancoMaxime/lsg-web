@@ -66,7 +66,7 @@
                                                 <td>{{ tray['ip'] }}</td>
                                             {% endif %}
                                             <td>
-                                            {% if tray['online'] == 0 %}
+                                            {% if tray['timestamp'] < tray['now'] %}
                                                 <span style="font-size: 1.5em; color: red;">
                                                     <i class="fas fa-unlink"></i>
                                                 </span>

@@ -19,6 +19,7 @@ CREATE TABLE user (
     weight REAL NOT NULL,
     actif INTEGER NOT NULL,
     id_permission INTEGER NOT NULL,
+    filename TEXT NOT NULL,
     FOREIGN KEY (id_permission) REFERENCES permission(id_permission)
 );
 
@@ -50,6 +51,7 @@ CREATE TABLE tray(
     online INTEGER NOT NULL,
     actif INTEGER NOT NULL,
     on_use INTEGER NOT NULL,
+    timestamp DATETIME NOT NULL,
     FOREIGN KEY (id_version) REFERENCES version(id_version)
 );
 
@@ -100,8 +102,8 @@ INSERT INTO permission(name) VALUES
 ("Administrator"),
 ("Simple User");
 
-INSERT INTO user (name, mail, password, birthdate, gender, weight, actif, id_permission) VALUES
-("Simon Dejaeger", "simon.dejaeger@uliege.be", "pbkdf2:sha256:150000$tqaXMquc$52afb1b6ec7ed791e131aab586e5f7c1d2f584cc23086325617ebd8991b506f3", "1994-10-16", "masculin", "62", 1, 1);
+INSERT INTO user (name, mail, password, birthdate, gender, weight, actif, id_permission, filename) VALUES
+("Simon Dejaeger", "simon.dejaeger@uliege.be", "pbkdf2:sha256:150000$tqaXMquc$52afb1b6ec7ed791e131aab586e5f7c1d2f584cc23086325617ebd8991b506f3", "1994-10-16", "masculin", "62", 1, 1, "1.png");
 
 INSERT INTO category (name) VALUES
 ("Drink"),

@@ -35,7 +35,7 @@
                                 <div class="card-title">Add User</div>
                             </div>
                             <div class="card-body">
-                                <form action="/user/create" method="post">
+                                <form action="/user/create" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
@@ -94,6 +94,18 @@
                                                 <input name="weight" id="weight" type="text" class="form-control" placeholder="Enter Weight" required>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-show-validation">
+											<label class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Upload Image <span class="required-label">*</span></label>
+											<div class="col-lg-4 col-md-9 col-sm-8">
+												<div class="input-file input-file-image">
+													<img class="img-upload-preview img-circle" width="100" height="100" src="http://placehold.it/100x100" alt="preview">
+													<input type="file" class="form-control form-control-file" id="image" name="image" accept="image/*" required >
+													<label for="image" class=" label-input-file btn btn-icon btn-primary btn-round btn-lg"><i class="fa fa-file-image-o"></i> Upload a Image</label>
+												</div>
+											</div>
+										</div>
                                     </div>
                                     <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Add</button>
                                 </form>

@@ -3,9 +3,13 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
+from flask import current_app as app
+
 
 from lsg_web.auth import login_required
 from lsg_web.db import get_db
+import os
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -34,7 +38,6 @@ def create():
         gender = request.form['gender']
         weight = request.form['weight']
         permission = request.form['permission']
-
         error = check_user(request)
         db = get_db()
 
@@ -47,11 +50,22 @@ def create():
             flash(error)
         else:
             db.execute(
-                'INSERT INTO user (name, mail, password, birthdate, gender, weight, actif, id_permission)'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                (name, mail, generate_password_hash(password1), birthdate, gender, weight, 1, permission)
+                'INSERT INTO user (name, mail, password, birthdate, gender, weight, actif, id_permission,filename)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                (name, mail, generate_password_hash(password1), birthdate, gender, weight, 1, permission, "tmp.png")
             )
+            image = request.files["image"]
+            tmp_id = db.execute(
+                "SELECT last_insert_rowid()"
+            ).fetchone()[0]
+            ext = image.filename.rsplit(".", 1)[1]
+            filename = str(tmp_id) + "." + ext
+            image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+            db.execute("UPDATE user SET filename = ? WHERE id_user = ?",
+                       (filename, tmp_id)
+                       )
             db.commit()
+
             return redirect(url_for('user.listing'))
 
     return render_template('user/create.html')
@@ -80,15 +94,25 @@ def check_user(request):
     elif not request.form['mail']:
         error = 'Mail is required.'
     elif not request.form['password1'] or not request.form['password2']:
-        error = 'You must enter a password'
+        error = 'You must enter a password.'
     elif request.form['password1'] != request.form['password2']:
-        error = 'The passwords must be the same'
+        error = 'The passwords must be the same.'
     elif not request.form['birthdate']:
-        error = 'You must enter a birthdate'
+        error = 'You must enter a birthdate.'
     elif not request.form['gender']:
-        error = 'You must select a gender'
+        error = 'You must select a gender.'
     elif not request.form['weight']:
-        error = 'You must enter a weight'
+        error = 'You must enter a weight.'
+    elif not request.files:
+        error = "You must select an image."
+
+    image = request.files["image"]
+    filename = secure_filename(image.filename)
+    if filename == "":
+        error = "No Filename."
+    ext = filename.rsplit(".", 1)[1]
+    if not ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        error = "Bad extension."
 
     return error
 
@@ -123,11 +147,14 @@ def update(id):
         if error is not None:
             flash(error)
         else:
-
+            image = request.files["image"]
+            ext = image.filename.rsplit(".", 1)[1]
+            filename = str(id) + "." + ext
+            image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
             db.execute(
-                'UPDATE user SET name = ?, mail = ?, password = ?, birthdate = ?, gender = ?, weight = ?, actif = ?, id_permission = ?'
+                'UPDATE user SET name = ?, mail = ?, password = ?, birthdate = ?, gender = ?, weight = ?, actif = ?, id_permission = ?, filename= ?'
                 ' WHERE id_user = ?',
-                (name, mail, generate_password_hash(password1), birthdate, gender, weight, actif, permission, id)
+                (name, mail, generate_password_hash(password1), birthdate, gender, weight, actif, permission, filename, id)
             )
             db.commit()
             return redirect(url_for('user.listing'))

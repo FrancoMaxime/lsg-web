@@ -1,10 +1,14 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
+from flask import current_app as app
+
 from werkzeug.exceptions import abort
 
 from lsg_web.auth import login_required
 from lsg_web.db import get_db
+
+import paho.mqtt.publish as publish
 
 bp = Blueprint('meal', __name__, url_prefix='/meal')
 
@@ -35,15 +39,18 @@ def create():
                 ' VALUES (?, ?, datetime("now"), ?)',
                 (request.form['tray'], request.form['menu'], g.user['id_user'])
             )
+            tmp_id = db.execute("select last_insert_rowid();").fetchone()[0]
             db.execute(
                 'UPDATE tray SET on_use = 1 WHERE id_tray = ?',
                 (request.form['tray'],)
             )
+            trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (request.form['tray'],)).fetchone()[0]
+            publish.single("lsg/"+trayname, "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
             db.commit()
             return redirect(url_for('index'))
 
     menus = get_db().execute('SELECT * FROM menu WHERE actif = 1').fetchall()
-    trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0').fetchall()
+    trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0 AND online = 1').fetchall()
     return render_template('meal/create.html', menus=menus, trays=trays)
 
 
@@ -87,5 +94,7 @@ def finished(id):
     db = get_db()
     db.execute('UPDATE meal SET end = datetime("now") WHERE id_meal = ?', (id,))
     db.execute('UPDATE tray SET on_use = 0 WHERE id_tray = ?', (meal['id_tray'],))
+    trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (request.form['tray'],)).fetchone()[0]
+    publish.single("lsg/" + trayname, "SERVER\tEND MEAL\t", hostname=app.config['MQTT_BROKER_URL'])
     db.commit()
     return redirect(url_for('meal.listing'))

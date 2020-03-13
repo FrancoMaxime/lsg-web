@@ -56,7 +56,7 @@
                                             <td>{{ menu['mname'] }}</td>
                                             <td>{{ menu['minformations'] }}</td>
                                             <td>{{ menu['uname'] }}</td>
-                                            {% if g.user['id_permission'] == 1 or food['id_user'] == g.user['id_user'] %}
+                                            {% if g.user['id_permission'] == 1 or menu['id_user'] == g.user['id_user'] %}
                                                 <td><form action="/menu/{{ menu['id_menu'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
                                                 <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/menu/{{ menu['id_menu'] }}/edit"></a></td>
                                             {% else %}

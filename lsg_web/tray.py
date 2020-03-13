@@ -1,7 +1,11 @@
+import os
+
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
+from flask import current_app as app
 from werkzeug.exceptions import abort
+from werkzeug.utils import secure_filename
 
 from lsg_web.auth import login_required
 from lsg_web.db import get_db
@@ -14,7 +18,7 @@ bp = Blueprint('tray', __name__, url_prefix='/tray')
 def listing():
     db = get_db()
     trays = db.execute(
-        'SELECT t.id_tray as id_tray,t.name as tname, v.name as vname, t.informations as informations, ip, online, t.on_use as on_use '
+        'SELECT t.id_tray as id_tray,t.name as tname, v.name as vname, t.informations as informations, ip, online, t.on_use as on_use, t.timestamp as timestamp, DATETIME("now", "-30 seconds") as now '
         'FROM tray t INNER JOIN version v on t.id_version = v.id_version ORDER BY id_tray ASC'
     ).fetchall()
     return render_template('tray/list.html', trays=trays)
@@ -43,8 +47,8 @@ def create():
             flash(error)
         else:
             db.execute(
-                'INSERT INTO tray (name, id_version, informations, ip, online, actif, on_use)'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO tray (name, id_version, informations, ip, online, actif, on_use, timestamp)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?, datetime("now", "-45 seconds"))',
                 (name, version, informations, "None", 0, 1, 0)
             )
             db.commit()
@@ -118,3 +122,37 @@ def delete(id):
     db.execute('UPDATE tray SET actif = 0 WHERE id_tray = ?', (id,))
     db.commit()
     return redirect(url_for('tray.listing'))
+
+
+@bp.route('/connect', methods=('POST',))
+def connect():
+    if request.method == 'POST':
+        name = request.form['name']
+        ip = request.form['ip']
+        db = get_db()
+        db.execute('UPDATE tray SET online = 1, ip = ?, timestamp = DATETIME("now") WHERE name = ?',
+                   (ip, name)
+                   )
+        db.commit()
+    return jsonify(success=True)
+
+
+@bp.route('/data', methods=('POST',))
+def data():
+    error = None
+    if request.method == 'POST':
+        if not request.files:
+            error = "You must select an image."
+        else:
+            data = request.files["data"]
+            filename = secure_filename(data.filename)
+            ext = filename.rsplit(".", 1)[1]
+            if filename == "":
+                error = "No Filename."
+            elif ext not in ("txt", "csv"):
+                error = "Bad type of file"
+            if error is None :
+                data.save(os.path.join(app.config["DATA_UPLOADS"], filename))
+                return jsonify(success=True)
+    return abort(404, "Error : " + str(error))
+

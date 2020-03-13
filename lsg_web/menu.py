@@ -15,7 +15,7 @@ def listing():
     db = get_db()
     menus = db.execute(
         'SELECT id_menu , m.name as mname, u.name as uname, m.informations as minformations '
-        'FROM menu m INNER JOIN user u on m.id_user = u.id_user ORDER BY m.id_menu ASC'
+        'FROM menu m INNER JOIN user u on m.id_user = u.id_user WHERE m.actif = 1 ORDER BY m.id_menu ASC'
     ).fetchall()
     return render_template('menu/list.html', menus=menus)
 
@@ -182,3 +182,13 @@ def copy(id):
         )
     db.commit()
     return redirect(url_for('menu.info', id=id_copy))
+
+
+@bp.route('/<int:id1>/<int:id2>/remove', methods=('GET', 'POST'))
+@login_required
+def remove(id1, id2):
+    get_menu(id1)
+    db = get_db()
+    db.execute('DELETE FROM composed WHERE id_menu = ? AND id_food = ?', (id1, id2))
+    db.commit()
+    return redirect(url_for('menu.info', id=id1))

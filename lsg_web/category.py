@@ -33,7 +33,7 @@ def create():
             db.execute(
                 'INSERT INTO category (name)'
                 ' VALUES (?)',
-                (request.form['name'])
+                (request.form['name'],)
             )
             db.commit()
             return redirect(url_for('category.listing'))
@@ -46,8 +46,8 @@ def check_category(request):
     if not name:
         return "You must enter a name."
     elif get_db().execute(
-                'SELECT * FROM category WHERE name = ?', (name,)
-        ).fetchone() is not None:
+            'SELECT * FROM category WHERE name = ?', (name,)
+    ).fetchone() is not None:
         return 'This category already exists'
 
 

@@ -86,7 +86,7 @@ def get_user(id, check_admin=True):
     return user
 
 
-def check_user(request):
+def check_user(request, update=False):
     error = None
 
     if not request.form['name']:
@@ -105,14 +105,14 @@ def check_user(request):
         error = 'You must enter a weight.'
     elif not request.files:
         error = "You must select an image."
-
-    image = request.files["image"]
-    filename = secure_filename(image.filename)
-    if filename == "":
-        error = "No Filename."
-    ext = filename.rsplit(".", 1)[1]
-    if not ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
-        error = "Bad extension."
+    if not update:
+        image = request.files["image"]
+        filename = secure_filename(image.filename)
+        if filename == "":
+            error = "No Filename."
+        ext = filename.rsplit(".", 1)[1]
+        if not ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+            error = "Bad extension."
 
     return error
 
@@ -123,7 +123,11 @@ def update(id):
     user = get_user(id)
 
     if request.method == 'POST':
-        error = check_user(request)
+        error = ""
+        if request.files["image"].filename == "":
+            error = check_user(request, True)
+        else:
+            error = check_user(request)
         db = get_db()
 
         name = request.form['name']
@@ -147,15 +151,23 @@ def update(id):
         if error is not None:
             flash(error)
         else:
-            image = request.files["image"]
-            ext = image.filename.rsplit(".", 1)[1]
-            filename = str(id) + "." + ext
-            image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-            db.execute(
-                'UPDATE user SET name = ?, mail = ?, password = ?, birthdate = ?, gender = ?, weight = ?, actif = ?, id_permission = ?, filename= ?'
-                ' WHERE id_user = ?',
-                (name, mail, generate_password_hash(password1), birthdate, gender, weight, actif, permission, filename, id)
-            )
+            if request.files["image"].filename != "":
+                image = request.files["image"]
+                ext = image.filename.rsplit(".", 1)[1]
+                filename = str(id) + "." + ext
+                image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+                db.execute(
+                    'UPDATE user SET name = ?, mail = ?, password = ?, birthdate = ?, gender = ?, weight = ?, actif = ?, id_permission = ?, filename= ?'
+                    ' WHERE id_user = ?',
+                    (name, mail, generate_password_hash(password1), birthdate, gender, weight, actif, permission, filename, id)
+                )
+            else:
+                db.execute(
+                    'UPDATE user SET name = ?, mail = ?, password = ?, birthdate = ?, gender = ?, weight = ?, actif = ?, id_permission = ?'
+                    ' WHERE id_user = ?',
+                    (name, mail, generate_password_hash(password1), birthdate, gender, weight, actif, permission, id)
+                )
+
             db.commit()
             return redirect(url_for('user.listing'))
 

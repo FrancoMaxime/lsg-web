@@ -40,6 +40,7 @@
                                     <tr>
                                         <th scope="col-1">#</th>
                                         <th scope="col-2">User</th>
+                                        <th scope="col-1" class="col-1">All Info</th>
                                         <th scope="col-2">Menu Name</th>
                                         <th scope="col-2">Menu information</th>
                                         <th scope="col-2">ID Tray</th>
@@ -53,6 +54,7 @@
                                         <tr>
                                             <td>{{loop.index}}</td>
                                             <td>{{ meal['uname'] }}</td>
+                                            <td><a class="fas fa-info btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/info"></a></td>
                                             <td>{{ meal['mname'] }}</td>
                                             <td>{{ meal['minformations'] }}</td>
                                             <td>{{ meal['tname'] }}</td>

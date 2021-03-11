@@ -39,10 +39,12 @@
                                 <thead>
                                     <tr>
                                         <th scope="col-1">#</th>
-                                        <th scope="col-2">User</th>
+                                        <th scope="col-1">User</th>
+                                        <th scope="col-1">Client</th>
                                         <th scope="col-1" class="col-1">All Info</th>
-                                        <th scope="col-2">Menu Name</th>
+                                        <th scope="col-1">Menu Name</th>
                                         <th scope="col-2">Menu information</th>
+                                        <th scope="col-1">date</th>
                                         <th scope="col-2">ID Tray</th>
                                         {% if g.user['id_permission'] == 1  %}
                                             <th scope="col-1">Edit</th>
@@ -54,9 +56,11 @@
                                         <tr>
                                             <td>{{loop.index}}</td>
                                             <td>{{ meal['uname'] }}</td>
+                                            <td>{{ meal['cname'] }}</td>
                                             <td><a class="fas fa-info btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/info"></a></td>
                                             <td>{{ meal['mname'] }}</td>
                                             <td>{{ meal['minformations'] }}</td>
+                                            <td>{{ meal['end'] }}</td>
                                             <td>{{ meal['tname'] }}</td>
                                             {% if g.user['id_permission'] == 1  %}
                                                 <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/edit"></a></td>

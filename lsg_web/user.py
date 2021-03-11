@@ -10,6 +10,7 @@ from flask import current_app as app
 from lsg_web.auth import login_required
 from lsg_web.db import get_db
 import os
+from datetime import date as dtdate
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -31,6 +32,7 @@ def create():
         abort(403)
 
     if request.method == 'POST':
+        print(request.form['birthdate'])
         name = request.form['name']
         mail = request.form['mail']
         password1 = request.form['password1']
@@ -105,6 +107,15 @@ def check_user(request, update=False):
         error = 'You must enter a weight.'
     elif not request.files:
         error = "You must select an image."
+
+    is_valid = True
+    try:
+        dtdate.fromisoformat(request.form['birthdate'])
+    except ValueError:
+        is_valid = False
+    if not is_valid:
+        error = 'You must enter a valid birthdate.'
+
     if not update:
         image = request.files["image"]
         filename = secure_filename(image.filename)

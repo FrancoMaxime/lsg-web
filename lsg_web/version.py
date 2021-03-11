@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 
 from lsg_web.auth import login_required
 from lsg_web.db import get_db
-
+from datetime import date as dtdate
 bp = Blueprint('version', __name__, url_prefix='/version')
 
 
@@ -48,6 +48,15 @@ def check_version(request):
         return "You must enter a name."
     elif not date:
         return 'You must enter a release date.'
+
+    is_valid = True
+    try:
+        dtdate.fromisoformat(date)
+    except ValueError:
+        is_valid = False
+    if not is_valid:
+        error = 'You must enter a valid date.'
+
     elif get_db().execute(
                 'SELECT * FROM version WHERE name = ?', (name,)
         ).fetchone() is not None:

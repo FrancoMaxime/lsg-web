@@ -60,9 +60,12 @@ CREATE TABLE meal(
     id_user INTEGER NOT NULL,
     id_menu INTEGER NOT NULL,
     id_tray INTEGER NOT NULL,
+    id_client INTEGER NOT NULL,
     start DATETIME NOT NULL,
     end DATETIME,
+    informations TEXT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user(id_user),
+    FOREIGN KEY (id_client) REFERENCES user(id_user),
     FOREIGN KEY (id_menu) REFERENCES menu(id_menu),
     FOREIGN KEY (id_tray) REFERENCES tray(id_tray)
 );

@@ -51,8 +51,8 @@ def create():
             return redirect(url_for('index'))
 
     menus = get_db().execute('SELECT * FROM menu WHERE actif = 1').fetchall()
-    #trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0 AND online = 1 AND timestamp > datetime("now", "-30 seconds")').fetchall()
-    trays = get_db().execute('SELECT * from tray').fetchall()
+    trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0 AND online = 1 AND timestamp > datetime("now", "-30 seconds")').fetchall()
+    #trays = get_db().execute('SELECT * from tray').fetchall()
     users = get_db().execute(
         'SELECT *'
         ' FROM user ORDER BY id_user ASC'

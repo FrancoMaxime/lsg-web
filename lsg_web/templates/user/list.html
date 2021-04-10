@@ -41,23 +41,34 @@
                                 <thead>
                                     <tr>
                                         <th scope="col-1">#</th>
+                                        <th scope="col-1">Actif</th>
                                         <th scope="col-2">Name</th>
                                         <th scope="col-2">Mail</th>
-                                        <th scope="col-2">Birthdate</th>
                                         <th scope="col-2">Group</th>
                                         {% if g.user['id_permission'] == 1 %}
                                             <th scope="col-1">Desactivate</th>
+                                            <th scope="col-1">Edit</th>
                                         {% endif %}
-                                        <th scope="col-1">Edit</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for user in users %}
                                         <tr>
                                             <td>{{loop.index}}</td>
+                                            <td>
+                                            {% if user['actif'] == 1 %}
+                                                <span style="font-size: 1.5em; color: green;">
+                                                    <i class="fas fa-user-check"></i>
+                                                </span>
+                                            {% else %}
+                                                <span style="font-size: 1.5em; color: red;">
+                                                    <i class="fas fa-user-times"></i>
+                                                </span>
+                                            {% endif %}
+                                            </td>
                                             <td>{{ user['name'] }}</td>
                                             <td>{{ user['mail'] }}</td>
-                                            <td>{{ user['birthdate'] }}</td>
                                             {% if user['id_permission'] == 1 %}
                                                 <td>Administrator</td>
                                             {% else %}
@@ -65,10 +76,7 @@
                                             {% endif %}
                                             {% if g.user['id_permission'] == 1 %}
                                                 <td><form action="/user/{{ user['id_user'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
-                                            {% endif %}
-                                            <td>
-                                            {% if g.user['id_permission'] == 1 or user['id_user'] == g.user['id_user'] %}
-                                                <a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/user/{{ user['id_user'] }}/edit"></a></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/user/{{ user['id_user'] }}/update"></a></td>
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

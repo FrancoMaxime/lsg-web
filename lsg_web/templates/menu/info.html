@@ -64,7 +64,7 @@
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
 												<p class="card-category">Creator</p>
-												<h4 class="card-title">{{menu["uname"]}}</h4>
+												<h4 class="card-title">{{menu["pname"]}}</h4>
 											</div>
 										</div>
 									</div>
@@ -83,8 +83,8 @@
 										</div>
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
-												<p class="card-category">Informations</p>
-												<h4 class="card-title">{{ menu['minformations'] }}</h4>
+												<p class="card-category">Information</p>
+												<h4 class="card-title">{{ menu['minformation'] }}</h4>
 											</div>
 										</div>
 									</div>
@@ -97,7 +97,7 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Composed</div>
-                                {% if g.user['id_permission'] == 1 or g.user['id_user'] == menu['id_user']%}
+                                {% if g.user['id_permission'] == 1 %}
                                     <a class="btn btn-warning btn-round ml-auto" href="/menu/{{menu['id_menu']}}/add">
                                         <i class="fa fa-plus"></i>
                                         Add a new component
@@ -109,24 +109,26 @@
                             <table class="table table-head-bg-warning">
                                 <thead>
                                     <tr>
-                                        <th scope="col-1">#</th>
-                                        <th scope="col-2">Name</th>
-                                        <th scope="col-2">Category</th>
-                                        <th scope="col-2">Informations</th>
-                                        {% if g.user['id_permission'] == 1 or g.user['id_user'] == menu['id_user']%}
-                                            <th scope="col-2">Remove</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Information</th>
+                                        {% if g.user['id_permission'] == 1 %}
+                                            <th scope="col">Remove</th>
+                                            <th scope="col">Update</th>
                                         {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for comp in composed %}
                                         <tr>
-                                            <td>{{loop.index}}</td>
+                                            <th scope="row">{{loop.index}}</th>
                                             <td>{{ comp['fname'] }}</td>
                                             <td>{{ comp['cname'] }}</td>
-                                            <td>{{ comp['informations'] }}</td>
-                                            {% if g.user['id_permission'] == 1 or g.user['id_user'] == menu['id_user']%}
+                                            <td>{{ comp['information'] }}</td>
+                                            {% if g.user['id_permission'] == 1 %}
                                                 <td><form action="/menu/{{ menu['id_menu'] }}/{{ comp['idfood'] }}/remove" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/menu/{{ menu['id_menu'] }}/{{ comp['idfood'] }}/update"></a></td>
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

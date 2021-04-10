@@ -29,6 +29,7 @@
                     </ul>
                 </div>
                 <div class="page-category">
+                {% include 'flashed_messages.html' %}
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
@@ -43,7 +44,7 @@
                                                 <select class="form-control" id="menu" name="menu">
                                                     {% for menu in menus %}
                                                         <option value="{{ menu['id_menu'] }}">{{ menu['name'] }}</option>
-                                                    {% endfor %}}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
@@ -54,26 +55,26 @@
                                                 <select class="form-control" id="tray" name="tray">
                                                     {% for tray in trays %}
                                                         <option value="{{ tray['id_tray'] }}">{{ tray['name'] }}</option>
-                                                    {% endfor %}}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default form-check">
-                                                <label for="user">User</label>
-                                                <select class="form-control" id="user" name="user">
-                                                    {% for user in users %}
-                                                        <option value="{{ user['id_user'] }}">{{ user['name'] }}</option>
-                                                    {% endfor %}}
+                                                <label for="person">Candidat</label>
+                                                <select class="form-control" id="person" name="person">
+                                                    {% for person in persons %}
+                                                        <option value="{{ person['id_person'] }}">{{ person['name'] }}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
-                                                <label><b>Informations</b></label>
-                                                <input name="informations" id="informations" type="text" class="form-control" placeholder="Enter informations" required>
+                                                <label><b>Information</b></label>
+                                                <input name="information" id="information" type="text" class="form-control" placeholder="Enter information" required>
                                             </div>
                                         </div>
 

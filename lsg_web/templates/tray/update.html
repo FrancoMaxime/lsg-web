@@ -29,6 +29,7 @@
                     </ul>
                 </div>
                 <div class="page-category">
+                {% include 'flashed_messages.html' %}
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
@@ -59,8 +60,8 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
-                                                <label><b>Informations</b></label>
-                                                <input name="informations" id="informations" type="text" class="form-control" placeholder="Enter Informations" value="{{ tray['informations'] }}" required>
+                                                <label><b>Information</b></label>
+                                                <input name="information" id="information" type="text" class="form-control" placeholder="Enter Informations" value="{{ tray['information'] }}" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">

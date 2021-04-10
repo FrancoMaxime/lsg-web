@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block title %}List persons{% endblock %}
+
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/person/list">Persons</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="page-category">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div class="card-title">Persons</div>
+                                {% if g.user['id_permission'] == 1 %}
+                                    <a class="btn btn-warning btn-round ml-auto" href="/person/create">
+                                        <i class="fa fa-plus"></i>
+                                        Add a new person
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-head-bg-warning">
+                                <thead>
+                                    <tr>
+                                        <th scope="col-1">#</th>
+                                        <th scope="col-2">Name</th>
+                                        <th scope="col-2">Birthdate</th>
+                                        <th scope="col-1">Weight</th>
+                                        <th scope="col-1">Gender</th>
+                                        {% if g.user['id_permission'] == 1 %}
+                                            <th scope="col-1">Desactivate</th>
+                                        {% endif %}
+                                        <th scope="col-1">Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for person in persons %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{ person['name'] }}</td>
+                                            <td>{{ person['birthdate'] }}</td>
+                                            <td>{{ person['weight'] }}</td>
+                                            <td>{{ person['gender'] }}</td>
+                                            {% if g.user['id_permission'] == 1 %}
+                                                <td><form action="/person/{{ person['id_person'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/person/{{ person['id_person'] }}/update"></a></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

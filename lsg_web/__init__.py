@@ -3,7 +3,7 @@
 import os
 
 from flask import Flask
-import paho.mqtt.publish as publish
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -43,14 +43,7 @@ def create_app(test_config=None):
     # a simple page that checks if the server is running
     @app.route('/running')
     def running():
-        publish.single("lsg/plateau1", "SERVER\tSTART MEAL\t1.csv", hostname=app.config['MQTT_BROKER_URL'])
-        return 'Server running'
-
-    @app.route('/close')
-    def close():
-        publish.single("lsg/plateau1", "SERVER\tEND MEAL\t1.csv", hostname=app.config['MQTT_BROKER_URL'])
-        return 'Server end meal'
-
+        return 'Server is running'
 
     @app.context_processor
     def utility_processor():
@@ -92,6 +85,9 @@ def create_app(test_config=None):
 
     from . import bug
     app.register_blueprint(bug.bp)
+
+    from . import person
+    app.register_blueprint(person.bp)
 
     from . import changelog
     app.register_blueprint(changelog.bp)

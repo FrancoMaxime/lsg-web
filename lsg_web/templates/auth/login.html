@@ -30,14 +30,9 @@
 		<div class="container container-login animated fadeIn">
 
 			<h3 class="text-center">LSG_Web</h3>
+            {% include 'flashed_messages.html' %}
 			<form method="post">
-				{% with messages = get_flashed_messages() %}
-				  	{% if messages %}
-						<div class="login-form has-error">
-					{% else %}
-						<div class="login-form">
-				  	{% endif %}
-				{% endwith %}
+                <div class="login-form">
 					<div class="form-group">
 						<label for="mail" class="placeholder"><b>Email</b></label>
 						<input id="mail" name="mail" type="email" class="form-control" required>

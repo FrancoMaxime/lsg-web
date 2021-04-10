@@ -28,10 +28,12 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Meals</div>
-                                <a class="btn btn-warning btn-round ml-auto" href="/meal/create">
-                                    <i class="fa fa-plus"></i>
-                                    Add a new meal
-                                </a>
+                                {% if g.user['id_permission'] == 1 %}
+                                    <a class="btn btn-warning btn-round ml-auto" href="/meal/create">
+                                        <i class="fa fa-plus"></i>
+                                        Add a new meal
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="card-body">
@@ -45,8 +47,9 @@
                                         <th scope="col-1">Menu Name</th>
                                         <th scope="col-2">Menu information</th>
                                         <th scope="col-1">date</th>
-                                        <th scope="col-2">ID Tray</th>
+                                        <th scope="col-2">Tray name</th>
                                         {% if g.user['id_permission'] == 1  %}
+                                            <th scope="col-1">deactivate</th>
                                             <th scope="col-1">Edit</th>
                                         {%endif%}
                                     </tr>
@@ -59,11 +62,12 @@
                                             <td>{{ meal['cname'] }}</td>
                                             <td><a class="fas fa-info btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/info"></a></td>
                                             <td>{{ meal['mname'] }}</td>
-                                            <td>{{ meal['minformations'] }}</td>
+                                            <td>{{ meal['minformation'] }}</td>
                                             <td>{{ meal['end'] }}</td>
                                             <td>{{ meal['tname'] }}</td>
-                                            {% if g.user['id_permission'] == 1  %}
-                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/edit"></a></td>
+                                            {% if g.user['id_permission'] == 1 %}
+                                                <td><form action="/meal/{{ meal['id_meal'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/update"></a></td>
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

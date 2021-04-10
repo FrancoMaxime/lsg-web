@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Update Person {% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/person/list">Person</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/person/{{ person['id_person'] }}/update">Update</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="page-category">
+                {% include 'flashed_messages.html' %}
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Update {{ person['name'] }}</div>
+                            </div>
+                            <div class="card-body">
+                                <form name="test" method="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Name</b></label>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter Name" value="{{ person['name'] }}" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Birthdate</b></label>
+                                                <input name="birthdate" id="birthdate" type="date" class="form-control" value="{{ person['birthdate'] }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="gender">Gender</label>
+                                                <select class="form-control" id="gender" name="gender">
+                                                    <option value="homme">Homme</option>
+                                                    <option value="femme">Femme</option>
+                                                    <option value="autre">Autre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Weight</b></label>
+                                                <input name="weight" id="weight" type="text" class="form-control" value="{{ person['weight'] }}" placeholder="Enter Weight" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Actif</label>
+                                                <input name="actif" id="actif" type="checkbox" data-toggle="toggle"
+                                                {% if person['actif'] == 1 %}
+                                                    checked
+                                                {% endif %}
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Add Food{% endblock %}
+{% block title %}Add Category{% endblock %}
 
 {% block content %}
     <div class="main-panel">
@@ -29,6 +29,7 @@
                     </ul>
                 </div>
                 <div class="page-category">
+                    {% include 'flashed_messages.html' %}
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
@@ -40,7 +41,7 @@
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label><b>Name</b></label>
-                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter a version name" required>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter a category name" required>
                                             </div>
                                         </div>
                                     </div>

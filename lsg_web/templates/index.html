@@ -22,10 +22,12 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Active Meals</div>
-                                <a class="btn btn-warning btn-round ml-auto" href="/meal/create">
-                                    <i class="fa fa-plus"></i>
-                                    Add a new meal
-                                </a>
+                                {% if g.user['id_permission'] == 1 %}
+                                    <a class="btn btn-warning btn-round ml-auto" href="/meal/create">
+                                        <i class="fa fa-plus"></i>
+                                        Add a new meal
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="card-body">
@@ -46,10 +48,10 @@
                                             <td>{{loop.index}}</td>
                                             <td>{{ meal['uname'] }}</td>
                                             <td>{{ meal['mname'] }}</td>
-                                            <td>{{ meal['minformations'] }}</td>
+                                            <td>{{ meal['minformation'] }}</td>
                                             <td>{{ meal['tname'] }}</td>
                                             <td>
-                                            {% if g.user['id_permission'] == 1 or g.user['id_user'] == meal['uid'] %}
+                                            {% if g.user['id_permission'] == 1 %}
                                                 <a class="fas fa-check btn btn-success btn-round ml-auto" href="/meal/{{ meal['id_meal'] }}/finished"></a>
                                             {% endif %}
                                             </td>

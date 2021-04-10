@@ -28,10 +28,12 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Foods</div>
-                                <a class="btn btn-warning btn-round ml-auto" href="/food/create">
-                                    <i class="fa fa-plus"></i>
-                                    Add a new food
-                                </a>
+                                {% if g.user['id_permission'] == 1 %}
+                                    <a class="btn btn-warning btn-round ml-auto" href="/food/create">
+                                        <i class="fa fa-plus"></i>
+                                        Add a new food
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="card-body">
@@ -41,7 +43,7 @@
                                         <th scope="col-1">#</th>
                                         <th scope="col-2">Name</th>
                                         <th scope="col-2">Category</th>
-                                        <th scope="col-2">Informations</th>
+                                        <th scope="col-2">Information</th>
                                         <th scope="col-2">Added by</th>
                                         <th scope="col-1">Edit</th>
                                     </tr>
@@ -52,11 +54,11 @@
                                             <td>{{loop.index}}</td>
                                             <td>{{ food['fname'] }}</td>
                                             <td>{{ food['cname'] }}</td>
-                                            <td>{{ food['informations'] }}</td>
+                                            <td>{{ food['information'] }}</td>
                                             <td>{{ food['uname'] }}</td>
                                             <td>
                                             {% if g.user['id_permission'] == 1 or food['id_user'] == g.user['id_user'] %}
-                                                <a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/food/{{ food['idfood'] }}/edit"></a></td>
+                                                <a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/food/{{ food['idfood'] }}/update"></a></td>
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

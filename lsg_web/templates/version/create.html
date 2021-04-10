@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Add Food{% endblock %}
+{% block title %}Add a new Tray version{% endblock %}
 
 {% block content %}
     <div class="main-panel">
@@ -18,28 +18,29 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="/version/list">Versions</a>
+                            <a href="/version/list">Tray versions</a>
                         </li>
                         <li class="separator">
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="/version/create">Create a new version</a>
+                            <a href="/version/create">Create a new tray version</a>
                         </li>
                     </ul>
                 </div>
                 <div class="page-category">
+                    {% include 'flashed_messages.html' %}
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">Add version</div>
+                                <div class="card-title">Add tray version</div>
                             </div>
                             <div class="card-body">
                                 <form action="/version/create" method="post">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
-                                                <label><b>Name</b></label>
+                                                <label><b>Version name</b></label>
                                                 <input name="name" id="name" type="text" class="form-control" placeholder="Enter a version name" required>
                                             </div>
                                         </div>

@@ -70,7 +70,7 @@
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-									{{ g.user['name'] }}
+									{{ g.person['name'] }}
 									<span class="user-level">{{ g.group['name'] }}</span>
 									<span class="caret"></span>
 								</span>
@@ -107,27 +107,30 @@
 							</span>
 							<h4 class="text-section">Components</h4>
 						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#base">
-								<i class="fas fa-utensils"></i>
-								<p>Meals</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="base">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/meal/list">
-											<span class="sub-item">List</span>
-										</a>
-									</li>
-									<li>
-										<a href="/meal/create">
-											<span class="sub-item">Create</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
+                        <li class="nav-item">
+								<a data-toggle="collapse" href="#category">
+									<i class="fas fa-clipboard-list"></i>
+									<p>Category</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse" id="category">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="/category/list">
+												<span class="sub-item">List</span>
+											</a>
+										</li>
+                                        {% if g.user['id_permission'] == 1 %}
+										<li>
+											<a href="/category/create">
+												<span class="sub-item">Create</span>
+											</a>
+										</li>
+                                        {% endif %}
+									</ul>
+								</div>
+							</li>
+
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#forms">
 								<i class="far fa-clipboard"></i>
@@ -141,78 +144,88 @@
 											<span class="sub-item">List</span>
 										</a>
 									</li>
+                                    {% if g.user['id_permission'] == 1 %}
 									<li>
 										<a href="/food/create">
 											<span class="sub-item">Create</span>
 										</a>
 									</li>
-
+                                    {% endif %}
 								</ul>
 							</div>
 						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#tables">
-								<i class="fab fa-usb"></i>
-								<p>Tray</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="tables">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/tray/list">
-											<span class="sub-item">List</span>
-										</a>
-									</li>
-									<li>
-										<a href="/tray/create">
-											<span class="sub-item">Create</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#maps">
-								<i class="fas fa-user"></i>
-								<p>User</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="maps">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/user/list">
-											<span class="sub-item">List</span>
-										</a>
-									</li>
-									<li>
-										<a href="/user/create">
-											<span class="sub-item">Create</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#charts">
+                        <li class="nav-item">
+							<a data-toggle="collapse" href="#menus">
 								<i class="fas fa-book-open"></i>
 								<p>Menu</p>
 								<span class="caret"></span>
 							</a>
-							<div class="collapse" id="charts">
+							<div class="collapse" id="menus">
 								<ul class="nav nav-collapse">
 									<li>
 										<a href="/menu/list">
 											<span class="sub-item">List</span>
 										</a>
 									</li>
+                                    {% if g.user['id_permission'] == 1 %}
 									<li>
 										<a href="/menu/create">
 											<span class="sub-item">Create</span>
 										</a>
 									</li>
+                                    {% endif %}
 								</ul>
 							</div>
 						</li>
+                        <li class="nav-item">
+							<a data-toggle="collapse" href="#base">
+								<i class="fas fa-utensils"></i>
+								<p>Meals</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="base">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/meal/list">
+											<span class="sub-item">List</span>
+										</a>
+									</li>
+                                    {% if g.user['id_permission'] == 1 %}
+									<li>
+										<a href="/meal/create">
+											<span class="sub-item">Create</span>
+										</a>
+									</li>
+                                    {% endif %}
+								</ul>
+							</div>
+						</li>
+
+
+						<li class="nav-item">
+							<a data-toggle="collapse" href="#persons">
+								<i class="fas fa-user"></i>
+								<p>Person</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="persons">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/person/list">
+											<span class="sub-item">List</span>
+										</a>
+									</li>
+                                    {% if g.user['id_permission'] == 1 %}
+									<li>
+										<a href="/person/create">
+											<span class="sub-item">Create</span>
+										</a>
+									</li>
+                                    {% endif %}
+								</ul>
+							</div>
+						</li>
+
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
@@ -222,7 +235,7 @@
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#bug">
 								<i class="fas fa-bug"></i>
-								<p>Bugs</p>
+								<p>Bugs/Suggestions</p>
 								<span class="caret"></span>
 							</a>
 							<div class="collapse" id="bug">
@@ -241,13 +254,58 @@
 							</div>
 						</li>
 						{% if g.user['id_permission'] == 1 %}
+                            <li class="nav-item">
+                                <a data-toggle="collapse" href="#tables">
+                                    <i class="fab fa-usb"></i>
+                                    <p>Tray</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="tables">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="/tray/list">
+                                                <span class="sub-item">List</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/tray/create">
+                                                <span class="sub-item">Create</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a data-toggle="collapse" href="#users">
+                                    <i class="fas fa-user-shield"></i>
+                                    <p>User</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="users">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="/user/list">
+                                                <span class="sub-item">List</span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/user/create">
+                                                <span class="sub-item">Create</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
 							<li class="nav-item">
 								<a data-toggle="collapse" href="#version">
 									<i class="fas fa-code-branch"></i>
 									<p>Version</p>
 									<span class="caret"></span>
 								</a>
-								<div class="collapse" id="version">
+                                <div class="collapse" id="version">
 									<ul class="nav nav-collapse">
 										<li>
 											<a href="/version/list">
@@ -262,27 +320,9 @@
 									</ul>
 								</div>
 							</li>
-							<li class="nav-item">
-								<a data-toggle="collapse" href="#category">
-									<i class="fas fa-clipboard-list"></i>
-									<p>Category</p>
-									<span class="caret"></span>
-								</a>
-								<div class="collapse" id="category">
-									<ul class="nav nav-collapse">
-										<li>
-											<a href="/category/list">
-												<span class="sub-item">List</span>
-											</a>
-										</li>
-										<li>
-											<a href="/category/create">
-												<span class="sub-item">Create</span>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
+
+
+
 						{% endif %}
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
@@ -293,7 +333,7 @@
 						<li class="nav-item">
 							<a href="/changelog">
 								<i class="fas fa-code-branch"></i>
-								<p>0.0.2</p>
+								<p>0.0.3</p>
 							</a>
 						</li>
 					</ul>

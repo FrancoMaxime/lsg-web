@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Menu Info{% endblock %}
+{% block title %}Meal Info{% endblock %}
 
 
 {% block content %}
@@ -84,8 +84,8 @@
 										</div>
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
-												<p class="card-category">Menu informations</p>
-												<h4 class="card-title">{{ meal['menuinformations'] }}</h4>
+												<p class="card-category">Menu information</p>
+												<h4 class="card-title">{{ meal['menuinformation'] }}</h4>
 											</div>
 										</div>
 									</div>
@@ -148,8 +148,8 @@
 										</div>
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
-												<p class="card-category">Meal informations</p>
-												<h4 class="card-title">{{ meal['mealinformations'] }}</h4>
+												<p class="card-category">Meal information</p>
+												<h4 class="card-title">{{ meal['mealinformation'] }}</h4>
 											</div>
 										</div>
 									</div>
@@ -162,12 +162,10 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Data</div>
-                                {% if g.user['id_permission'] == 1 or g.user['id_user'] == meal['id_user']%}
-                                    <a class="btn btn-warning btn-round ml-auto" href="/meal/{{meal['id_meal']}}/uploads">
-                                        <i class="fas fa-cloud-download-alt"></i>
-                                        Download all data
-                                    </a>
-                                {% endif %}
+                                <a class="btn btn-warning btn-round ml-auto" href="/meal/{{meal['id_meal']}}/download">
+                                    <i class="fas fa-cloud-download-alt"></i>
+                                    Download all data
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">

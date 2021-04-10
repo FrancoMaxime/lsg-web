@@ -29,6 +29,7 @@
                     </ul>
                 </div>
                 <div class="page-category">
+                {% include 'flashed_messages.html' %}
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
@@ -37,12 +38,18 @@
                             <div class="card-body">
                                 <form action="/user/create" method="post" enctype="multipart/form-data">
                                     <div class="row">
+
                                         <div class="col-sm-12">
-                                            <div class="form-group form-group-default">
-                                                <label><b>Name</b></label>
-                                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter Name" required>
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="person">Person</label>
+                                                <select class="form-control" id="person" name="person">
+                                                    {% for person in persons %}
+                                                        <option value="{{ person['id_person'] }}">{{ person['name'] }}</option>
+                                                    {% endfor %}}
+                                                </select>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label for="mail">Email Address</label>
@@ -72,28 +79,6 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group form-group-default">
-                                                <label><b>Birthdate</b></label>
-                                                <input name="birthdate" id="birthdate" type="date" class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group form-group-default form-check">
-                                                <label for="gender">Gender</label>
-                                                <select class="form-control" id="gender" name="gender">
-                                                    <option value="homme">Homme</option>
-                                                    <option value="femme">Femme</option>
-                                                    <option value="autre">Autre</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group form-group-default">
-                                                <label><b>Weight</b></label>
-                                                <input name="weight" id="weight" type="text" class="form-control" placeholder="Enter Weight" required>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group form-show-validation">
@@ -101,7 +86,7 @@
 											<div class="col-lg-4 col-md-9 col-sm-8">
 												<div class="input-file input-file-image">
 													<img class="img-upload-preview img-circle" width="100" height="100" src="http://placehold.it/100x100" alt="preview">
-													<input type="file" class="form-control form-control-file" id="image" name="image" accept="image/*" required >
+													<input type="file" class="form-control form-control-file" id="image" name="image" accept="image/*">
 													<label for="image" class=" label-input-file btn btn-icon btn-primary btn-round btn-lg"><i class="fa fa-file-image-o"></i> Upload a Image</label>
 												</div>
 											</div>

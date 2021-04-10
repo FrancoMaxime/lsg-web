@@ -19,7 +19,7 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="/user/tray">Tray</a>
+                            <a href="/tray/list">Tray</a>
                         </li>
                     </ul>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <div class="card-title">List</div>
+                                <div class="card-title">Trays</div>
                                 {% if g.user['id_permission'] == 1 %}
                                     <a class="btn btn-warning btn-round ml-auto" href="/tray/create">
                                         <i class="fa fa-plus"></i>
@@ -43,7 +43,7 @@
                                         <th scope="col-1">#</th>
                                         <th scope="col-2">Name</th>
                                         <th scope="col-2">Version</th>
-                                        <th scope="col-2">infos</th>
+                                        <th scope="col-2">information</th>
                                         {% if g.user['id_permission'] == 1 %}
                                             <th scope="col-1">IP</th>
                                         {% endif %}
@@ -61,7 +61,7 @@
                                             <td>{{loop.index}}</td>
                                             <td>{{ tray['tname'] }}</td>
                                             <td>{{ tray['vname'] }}</td>
-                                            <td>{{ tray['informations'] }}</td>
+                                            <td>{{ tray['information'] }}</td>
                                             {% if g.user['id_permission'] == 1 %}
                                                 <td>{{ tray['ip'] }}</td>
                                             {% endif %}
@@ -90,7 +90,7 @@
 
                                             {% if g.user['id_permission'] == 1 %}
                                                 <td><form action="/tray/{{ tray['id_tray'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
-                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/tray/{{ tray['id_tray'] }}/edit"></a></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/tray/{{ tray['id_tray'] }}/update"></a></td>
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

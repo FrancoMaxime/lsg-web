@@ -3,14 +3,14 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from lsg_web.auth import login_required
+from lsg_web.auth import login_required, security_required
 from lsg_web.db import get_db
 from datetime import date as dtdate
 bp = Blueprint('version', __name__, url_prefix='/version')
 
 
 @bp.route('/list')
-@login_required
+@security_required
 def listing():
     db = get_db()
     versions = db.execute(
@@ -20,9 +20,8 @@ def listing():
 
 
 @bp.route('/create', methods=('GET', 'POST'))
-@login_required
+@security_required
 def create():
-    check_admin()
     if request.method == 'POST':
         error = check_version(request)
 
@@ -44,9 +43,9 @@ def check_version(request):
     name = request.form['name']
     date = request.form['date']
 
-    if not name:
+    if not name or name == "":
         return "You must enter a name."
-    elif not date:
+    elif not date or date == "":
         return 'You must enter a release date.'
 
     is_valid = True
@@ -55,14 +54,9 @@ def check_version(request):
     except ValueError:
         is_valid = False
     if not is_valid:
-        error = 'You must enter a valid date.'
+        return 'You must enter a valid date.'
 
     elif get_db().execute(
                 'SELECT * FROM version WHERE name = ?', (name,)
         ).fetchone() is not None:
-        return 'This version already exists'
-
-
-def check_admin():
-    if g.user['id_permission'] != 1:
-        abort(403)
+        return 'This version already exists.'

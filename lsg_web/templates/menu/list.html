@@ -27,11 +27,13 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <div class="card-title">List</div>
-                                <a class="btn btn-warning btn-round ml-auto" href="/menu/create">
-                                    <i class="fa fa-plus"></i>
-                                    Add a new menu
-                                </a>
+                                <div class="card-title">Menus</div>
+                                {% if g.user['id_permission'] == 1 %}
+                                    <a class="btn btn-warning btn-round ml-auto" href="/menu/create">
+                                        <i class="fa fa-plus"></i>
+                                        Add a new menu
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="card-body">
@@ -41,7 +43,7 @@
                                         <th scope="col" class="col-1">#</th>
                                         <th scope="col" class="col-1">All Info</th>
                                         <th scope="col" class="col-2">Name</th>
-                                        <th scope="col" class="col-3">Informations</th>
+                                        <th scope="col" class="col-3">Information</th>
                                         <th scope="col" class="col-2">Added by</th>
                                         <th scope="col" class="col-1">Desactivation</th>
                                         <th scope="col" class="col-1">Edit</th>
@@ -54,11 +56,11 @@
                                             <td>{{loop.index}}</td>
                                             <td><a class="fas fa-info btn btn-warning btn-round ml-auto" href="/menu/{{ menu['id_menu'] }}/info"></a></td>
                                             <td>{{ menu['mname'] }}</td>
-                                            <td>{{ menu['minformations'] }}</td>
-                                            <td>{{ menu['uname'] }}</td>
+                                            <td>{{ menu['minformation'] }}</td>
+                                            <td>{{ menu['pname'] }}</td>
                                             {% if g.user['id_permission'] == 1 or menu['id_user'] == g.user['id_user'] %}
                                                 <td><form action="/menu/{{ menu['id_menu'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
-                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/menu/{{ menu['id_menu'] }}/edit"></a></td>
+                                                <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/menu/{{ menu['id_menu'] }}/update"></a></td>
                                             {% else %}
                                                 <td>-</td>
                                                 <td>-</td>

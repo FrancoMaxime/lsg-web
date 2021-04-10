@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Update meal{% endblock %}
+
+{% block content %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/meal/list">Meals</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/meal/{{ meal['id_meal'] }}/create">Update a meal</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="page-category">
+                {% include 'flashed_messages.html' %}
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Update meal</div>
+                            </div>
+                            <div class="card-body">
+                                <form action="/meal/{{ meal['id_meal'] }}/update" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="menu">Menu</label>
+                                                <select class="form-control" id="menu" name="menu">
+                                                    {% for menu in menus %}
+                                                        <option value="{{ menu['id_menu'] }}"
+                                                        {%  if  menu['id_menu'] == meal['id_menu']%}
+                                                            selected
+                                                        {% endif %}
+                                                        >{{ menu['name'] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="person">Candidat</label>
+                                                <select class="form-control" id="person" name="person">
+                                                    {% for person in persons %}
+                                                        <option value="{{ person['id_person'] }}"
+                                                        {%  if  person['id_person'] == meal['id_peson']%}
+                                                            selected
+                                                        {% endif %}
+                                                        >{{ person['name'] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label><b>Information</b></label>
+                                                <input name="information" id="information" type="text" class="form-control" placeholder="Enter information" value="{{ meal['information'] }}" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

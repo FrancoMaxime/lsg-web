@@ -28,10 +28,12 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <div class="card-title">Categories</div>
+                                {% if g.user['id_permission'] == 1 %}
                                 <a class="btn btn-warning btn-round ml-auto" href="/category/create">
                                     <i class="fa fa-plus"></i>
                                     Add a new category
                                 </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="card-body">

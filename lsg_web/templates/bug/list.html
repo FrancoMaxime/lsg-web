@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Categories{% endblock %}
+{% block title %}Bug or Suggestions{% endblock %}
 
 
 {% block content %}
@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <div class="card-title">Categories</div>
+                                <div class="card-title">Bugs/Suggestions</div>
                                 <a class="btn btn-warning btn-round ml-auto" href="/bug/create">
                                     <i class="fa fa-plus"></i>
                                     Add a new bug or suggestion
@@ -40,7 +40,7 @@
                                     <tr>
                                         <th scope="col-1">#</th>
                                         <th scope="col-2">Title</th>
-                                        <th scope="col-2">Informations</th>
+                                        <th scope="col-2">Information</th>
                                         {% if g.user['id_permission'] == 1 %}
                                             <th scope="col-1">Corrected</th>
                                         {% endif %}
@@ -51,7 +51,7 @@
                                         <tr>
                                             <td>{{loop.index}}</td>
                                             <td>{{ bug['title'] }}</td>
-                                            <td>{{ bug['informations'] }}</td>
+                                            <td>{{ bug['information'] }}</td>
                                             {% if g.user['id_permission'] == 1 %}
                                                 <td><form action="/bug/{{ bug['id_bug'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
                                             {% endif %}

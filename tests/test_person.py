@@ -109,7 +109,7 @@ def test_delete(client, auth, app):
 
 
 def test_info(client, auth):
-    auth.login(mail="simple@user.be")
+    auth.login(mail="alice@user.be")
     response = client.get('/person/3/info')
     assert b'Alice' in response.data
     assert b'Super-Menu' in response.data

@@ -4,7 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 
-from lsg_web.auth import login_required
+from lsg_web.auth import login_required, security_required
 from lsg_web.db import get_db
 from datetime import date as dtdate
 
@@ -36,11 +36,8 @@ def info(id):
 
 
 @bp.route('/create', methods=('GET', 'POST'))
-@login_required
+@security_required
 def create():
-    if g.user['id_permission'] != 1:
-        abort(403)
-
     if request.method == 'POST':
         error = check_person(request)
         db = get_db()
@@ -99,7 +96,7 @@ def check_person(request):
 
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
-@login_required
+@security_required
 def update(id):
     person = get_person(id)
 

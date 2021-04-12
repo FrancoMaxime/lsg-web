@@ -67,7 +67,7 @@ def create():
     return render_template('user/create.html', persons=persons)
 
 
-def get_user(id, check_admin=True):
+def get_user(id):
     user = get_db().execute(
         'SELECT * FROM user INNER JOIN person on user.id_person = person.id_person WHERE id_user = ?',
         (id,)

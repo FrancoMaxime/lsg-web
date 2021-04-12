@@ -95,14 +95,14 @@ def test_update(client, auth, app):
 def test_create_update_validate(client, auth, path):
     auth.login()
     response = client.post(path, data={"person": "", "mail": "bob@user.be",
-                                      "password1": "admin", "password2": "admin", "permission": "1"})
+                                       "password1": "admin", "password2": "admin", "permission": "1"})
     assert b"The account should be linked to a person." in response.data
 
     response = client.post(path, data={"person": "4", "mail": "",
-                                      "password1": "admin", "password2": "admin", "permission": "1"})
+                                       "password1": "admin", "password2": "admin", "permission": "1"})
     assert b"Mail is required." in response.data
     response = client.post(path, data={"person": "4", "mail": "bob@user.be",
-                                      "password1": "", "password2": "admin1", "permission": "1"})
+                                       "password1": "", "password2": "admin1", "permission": "1"})
     assert b"You must enter a password." in response.data
     response = client.post(path, data={"person": "4", "mail": "bob@user.be",
                                        "password1": "admin", "password2": "admin2", "permission": "1"})

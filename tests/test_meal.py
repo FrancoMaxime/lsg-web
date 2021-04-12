@@ -129,7 +129,7 @@ def test_finished(client, auth, app):
         assert now <= meal['end']
 
 
-def test_meal_info(client, auth):
+def test_info(client, auth):
     auth.login(mail="simple@user.be")
     response = client.get('/meal/1/info')
     assert b'Alice' in response.data

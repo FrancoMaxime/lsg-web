@@ -37,12 +37,14 @@ def test_security_required(client, auth):
 
     # simple user doesn't see edit link
     assert b'href="/person/1/update"' not in client.get("/person/list").data
+    assert b'href="/meal/1/update"' not in client.get("/person/1/info").data
 
 
 def test_exists_required(client, auth):
     auth.login()
     assert client.post("/person/25/update").status_code == 404
     assert client.post("/person/25/delete").status_code == 404
+    assert client.post('/person/25/update').status_code == 404
 
 
 def test_create(client, auth, app):
@@ -104,3 +106,14 @@ def test_delete(client, auth, app):
         db = get_db()
         person = db.execute('SELECT * FROM person WHERE id_person = 2 ').fetchone()
         assert person['actif'] == 0
+
+
+def test_info(client, auth):
+    auth.login(mail="simple@user.be")
+    response = client.get('/person/3/info')
+    assert b'Alice' in response.data
+    assert b'Super-Menu' in response.data
+    assert b'Administrator' in response.data
+    assert b'information about Super-Menu' in response.data
+    assert b'information about Super-Meal' in response.data
+    assert b'/meal/1/info' in response.data

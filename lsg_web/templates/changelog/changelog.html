@@ -24,27 +24,65 @@
                     </ul>
                 </div>
                 <div class="page-category">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div class="card-title">Changelog 0.0.3</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            Must be done
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div class="card-title">Changelog 0.0.2</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            Must be done
-                        </div>
-                    </div>
+                    <div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Changelog</h4>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-1 col-md-2">
+											<div class="nav flex-column nav-pills nav-secondary " id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                                <a class="nav-link" id="futurework1" data-toggle="pill" href="#futurework" role="tab" aria-controls="v-pills-home" aria-selected="true">Future work</a>
+                                                <a class="nav-link" id="changelog4" data-toggle="pill" href="#changelog004" role="tab" aria-controls="v-pills-home" aria-selected="true">Version 0.0.4</a>
+												<a class="nav-link active" id="changelog3" data-toggle="pill" href="#changelog003" role="tab" aria-controls="v-pills-home" aria-selected="true">Version 0.0.3</a>
+												<a class="nav-link" id="changelog2" data-toggle="pill" href="#changelog002" role="tab" aria-controls="v-pills-profile" aria-selected="false">Version 0.0.2</a>
+												<a class="nav-link" id="changelog1" data-toggle="pill" href="#changelog001" role="tab" aria-controls="v-pills-messages" aria-selected="false">Version 0.0.1</a>
+											</div>
+										</div>
+										<div class="col-9 col-md-10">
+											<div class="tab-content " id="v-pills-tabContent">
+                                                <div class="tab-pane fade" id="futurework" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                    <p>Refactor actif in active.</p>
+                                                    <p>Complete changelog</p>
+												</div>
+                                                <div class="tab-pane fade show active" id="change004" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                    <p>Add a listing of all experiences for a specific person.</p>
+                                                    <p>Bug fixes for person: get a person needed administrator right while it was not needed.</p>
+												</div>
+												<div class="tab-pane fade" id="changelog003" role="tabpanel" aria-labelledby="v-pills-home-tab">
+													<p>Change the structure of the database. The table user was divided into person and user. A person represents a candidate for experiences while a user is an upgrade from person who have access to lsg_web. </p>
+													<p>Permissions have changed. Now, two types of permission exist, read only, or read and write. Read-only people have access to write bug or suggestions.</p>
+                                                    <p>Adding unittests to the whole project with a global coverage of 99%.</p>
+                                                    <p>Adding default image for user and admin.</p>
+                                                    <p>Refactor the name informations into information.</p>
+												</div>
+												<div class="tab-pane fade" id="changelog002" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                    <p>Add connection to IoT with paho-mqtt.</p>
+                                                    <p>Add a way to IoT to send the result of an experience to lsg_web.</p>
+                                                    <p>Add a webpage to show the result and download it.</p>
+                                                    <p>Correction of some bugs</p>
+												</div>
+												<div class="tab-pane fade" id="changelog001" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                                                    <p>Explanation of the different concepts:</p>
+                                                    <ul>
+                                                        <li>Category(name): represents a type of food (meat, vegetable,...).</li>
+                                                        <li>Food(name, id_category, information): represents a food, is linked to a category and contains some information.</li>
+                                                        <li>Menu(name, information, actif): represents a Menu, contains information and can be active or no more usable.</li>
+                                                        <li>Composed(id_menu, id_food, quantity): represents a component of a Menu.</li>
+                                                        <li>Version(name, release_date): represents a version of a Tray.</li>
+                                                        <li>Tray(name, id_version, information, ip, online, actif, on_use, timestamp): represents the system that collected the data, it has a version, an ip address. It may be on_used or free. </li>
+                                                        <li>Meal(id_tray, id_user, id_menu, start, end, actif, information): represent an experience a user made on a specific tray. That "start" and "end" at a specific time. If an error occurs, you may put active to false.</li>
+                                                        <li>User(name, email, password, weight, actif, birthdate, gender, id_permission): represents a user, with some information about it. An email address and a password is use to sign in the app. And some permission in the website.</li>
+                                                        <li>Permission(name): represents some permission in the website.</li>
+                                                    </ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
                 </div>
             </div>
         </div>

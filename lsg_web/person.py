@@ -21,6 +21,20 @@ def listing():
     return render_template('person/list.html', persons=persons)
 
 
+@bp.route('/<int:id>/info', methods=('GET',))
+@login_required
+def info(id):
+    db = get_db()
+    person = get_person(id)
+    meals = db.execute(
+        'SELECT meal.information as mealinfo, menu.name as menuname, menu.information as menuinfo, meal.start as start,'
+        ' meal.end as end, meal.id_meal as id_meal, meal.id_menu as id_menu '
+        'FROM meal meal INNER JOIN menu menu ON meal.id_menu = menu.id_menu WHERE id_person = ? '
+        'ORDER BY meal.id_meal ASC', (id,)
+    ).fetchall()
+    return render_template('person/info.html', meals=meals, person=person)
+
+
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
@@ -58,9 +72,6 @@ def get_person(id,):
 
     if person is None:
         abort(404, "Person id {0} doesn't exist.".format(id))
-
-    if not g.user['id_permission'] == 1:
-        abort(403)
 
     return person
 

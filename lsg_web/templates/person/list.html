@@ -40,15 +40,16 @@
                             <table class="table table-head-bg-warning">
                                 <thead>
                                     <tr>
-                                        <th scope="col-1">#</th>
-                                        <th scope="col-2">Name</th>
-                                        <th scope="col-2">Birthdate</th>
-                                        <th scope="col-1">Weight</th>
-                                        <th scope="col-1">Gender</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Birthdate</th>
+                                        <th scope="col">Weight</th>
+                                        <th scope="col">Gender</th>
+                                        <th scope="col-">information</th>
                                         {% if g.user['id_permission'] == 1 %}
-                                            <th scope="col-1">Desactivate</th>
+                                            <th scope="col">Desactivate</th>
+                                            <th scope="col">Update</th>
                                         {% endif %}
-                                        <th scope="col-1">Edit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,6 +60,7 @@
                                             <td>{{ person['birthdate'] }}</td>
                                             <td>{{ person['weight'] }}</td>
                                             <td>{{ person['gender'] }}</td>
+                                            <td><a class="fas fa-info btn btn-warning btn-round ml-auto" href="/person/{{ person['id_person'] }}/info"></a></td>
                                             {% if g.user['id_permission'] == 1 %}
                                                 <td><form action="/person/{{ person['id_person'] }}/delete" method="post"><button type="submit" id="addRowButton" class="btn btn-warning btn-round ml-auto"><i class="fas fa-trash-alt"></i></button></form></td>
                                                 <td><a class="fas fa-edit btn btn-warning btn-round ml-auto" href="/person/{{ person['id_person'] }}/update"></a></td>

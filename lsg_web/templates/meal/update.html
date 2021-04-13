@@ -59,7 +59,7 @@
                                                 <select class="form-control" id="person" name="person">
                                                     {% for person in persons %}
                                                         <option value="{{ person['id_person'] }}"
-                                                        {%  if  person['id_person'] == meal['id_peson']%}
+                                                        {%  if  person['id_person'] == meal['id_candidate']%}
                                                             selected
                                                         {% endif %}
                                                         >{{ person['name'] }}</option>
@@ -75,8 +75,19 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Actif</label>
+                                                <input name="actif" id="actif" type="checkbox" data-toggle="toggle"
+                                                {% if meal['actif'] == 1 %}
+                                                    checked
+                                                {% endif %}
+                                                >
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Add</button>
+                                    <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Update</button>
                                 </form>
                             </div>
                         </div>

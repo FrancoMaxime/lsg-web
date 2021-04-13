@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 
 from lsg_web.auth import security_required
 from lsg_web.db import get_db
+from lsg_web.useful import set_actif
 
 bp = Blueprint('tray', __name__, url_prefix='/tray')
 
@@ -89,9 +90,7 @@ def update(id):
     tray = get_tray(id)
     if request.method == 'POST':
         error = check_tray(request)
-        actif = 0
-        if 'actif' in request.form:
-            actif = request.form['actif']
+        actif = set_actif(request)
 
         db = get_db()
         if db.execute(

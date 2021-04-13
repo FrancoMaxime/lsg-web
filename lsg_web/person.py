@@ -6,6 +6,7 @@ from werkzeug.exceptions import abort
 
 from lsg_web.auth import login_required, security_required
 from lsg_web.db import get_db
+from lsg_web.useful import set_actif
 from datetime import date as dtdate
 
 bp = Blueprint('person', __name__, url_prefix='/person')
@@ -29,7 +30,7 @@ def info(id):
     meals = db.execute(
         'SELECT meal.information as mealinfo, menu.name as menuname, menu.information as menuinfo, meal.start as start,'
         ' meal.end as end, meal.id_meal as id_meal, meal.id_menu as id_menu '
-        'FROM meal meal INNER JOIN menu menu ON meal.id_menu = menu.id_menu WHERE id_person = ? '
+        'FROM meal meal INNER JOIN menu menu ON meal.id_menu = menu.id_menu WHERE meal.id_candidate = ? '
         'ORDER BY meal.id_meal ASC', (id,)
     ).fetchall()
     return render_template('person/info.html', meals=meals, person=person)
@@ -111,9 +112,7 @@ def update(id):
             birthdate = request.form['birthdate']
             gender = request.form['gender']
             weight = request.form['weight']
-            actif = 0
-            if 'actif' in request.form:
-                actif = request.form['actif']
+            actif = set_actif(request)
             db.execute(
                 'UPDATE person SET name = ?, birthdate = ?, gender = ?, weight = ?, actif = ?'
                 ' WHERE id_person = ?',

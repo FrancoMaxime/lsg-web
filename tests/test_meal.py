@@ -76,7 +76,7 @@ def test_create_validate(client, auth):
     response = client.post(path, data={"menu": "", "person": "3", "tray": 1, "information": "created information"})
     assert b"You must select a menu." in response.data
     response = client.post(path, data={"menu": "1", "person": "", "tray": 1, "information": "created information"})
-    assert b"You must select a user." in response.data
+    assert b"You must select a person." in response.data
     response = client.post(path, data={"menu": "1", "person": "3", "tray": "", "information": "created information"})
     assert b"You must select a tray." in response.data
     response = client.post(path, data={"menu": "1", "person": "3", "tray": 1, "information": ""})
@@ -85,7 +85,7 @@ def test_create_validate(client, auth):
     response = client.post(path, data={"menu": "25", "person": "3", "tray": 1, "information": "created information"})
     assert b"You must select a valid menu." in response.data
     response = client.post(path, data={"menu": "1", "person": "25", "tray": 1, "information": "created information"})
-    assert b"You must select a valid user." in response.data
+    assert b"You must select a valid person." in response.data
     response = client.post(path, data={"menu": "1", "person": "3", "tray": "25", "information": "created information"})
     assert b"You must select a valid tray." in response.data
 
@@ -96,14 +96,14 @@ def test_create_update(client, auth):
     response = client.post(path, data={"menu": "", "person": "3", "information": "created information"})
     assert b"You must select a menu." in response.data
     response = client.post(path, data={"menu": "1", "person": "", "information": "created information"})
-    assert b"You must select a user." in response.data
+    assert b"You must select a person." in response.data
     response = client.post(path, data={"menu": "1", "person": "3",  "information": ""})
     assert b"You must enter some information." in response.data
 
     response = client.post(path, data={"menu": "25", "person": "3",  "information": "created information"})
     assert b"You must select a valid menu." in response.data
     response = client.post(path, data={"menu": "1", "person": "25",  "information": "created information"})
-    assert b"You must select a valid user." in response.data
+    assert b"You must select a valid person." in response.data
 
 
 def test_delete(client, auth, app):

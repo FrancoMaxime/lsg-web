@@ -6,8 +6,8 @@ from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 from flask import current_app as app
 
-
-from lsg_web.auth import login_required, security_required
+from lsg_web.useful import set_actif
+from lsg_web.auth import  security_required
 from lsg_web.db import get_db
 from lsg_web.person import get_person
 import os
@@ -114,9 +114,7 @@ def update(id):
 
         mail = request.form['mail']
         password1 = request.form['password1']
-        actif = 0
-        if 'actif' in request.form:
-            actif = request.form['actif']
+        actif = set_actif(request)
         permission = request.form['permission']
 
         if db.execute(

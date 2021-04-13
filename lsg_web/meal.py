@@ -8,6 +8,7 @@ from werkzeug.exceptions import abort
 
 from lsg_web.auth import login_required, security_required
 from lsg_web.db import get_db
+from lsg_web.useful import set_actif
 
 import paho.mqtt.publish as publish
 
@@ -19,8 +20,10 @@ bp = Blueprint('meal', __name__, url_prefix='/meal')
 def listing():
     db = get_db()
     meals = db.execute(
-        'SELECT id_meal, u.name as uname, m.name as mname, m.information as minformation, t.name as tname, c.name as cname, end '
-        'FROM meal p JOIN person u ON p.id_user = u.id_person JOIN menu m ON m.id_menu = p.id_menu JOIN tray t ON t.id_tray = p.id_tray JOIN person c ON p.id_candidate = c.id_person ORDER BY p.id_meal ASC'
+        'SELECT id_meal, u.name as uname, m.name as mname, m.information as minformation, t.name as tname, '
+        'c.name as cname, end FROM meal p JOIN person u ON p.id_user = u.id_person JOIN menu m '
+        'ON m.id_menu = p.id_menu JOIN tray t ON t.id_tray = p.id_tray JOIN person c ON p.id_candidate = c.id_person '
+        'WHERE p.actif == 1 ORDER BY p.id_meal ASC'
     ).fetchall()
     return render_template('meal/list.html', meals=meals)
 
@@ -62,14 +65,16 @@ def update(id):
     meal = get_meal(id)
     if request.method == 'POST':
         error = check_meal(request)
+        actif = set_actif(request)
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
-            db.execute('UPDATE meal SET id_menu = ?, id_user = ?, id_candidate = ?, information = ? WHERE id_meal = ?',
+            db.execute('UPDATE meal SET id_menu = ?, id_user = ?, id_candidate = ?, information = ?, actif = ? '
+                       'WHERE id_meal = ?',
                        (request.form['menu'], g.user['id_person'], request.form['person'], request.form['information'],
-                        id))
+                        actif, id))
             db.commit()
             return redirect(url_for('meal.listing'))
 
@@ -81,12 +86,13 @@ def update(id):
 def check_meal(request):
     menu = request.form['menu']
     person = request.form['person']
+    print(person)
     information = request.form['information']
 
     if not menu:
         return "You must select a menu."
     elif not person:
-        return 'You must select a user.'
+        return 'You must select a person.'
     elif not information:
         return 'You must enter some information.'
     elif get_db().execute(
@@ -96,7 +102,8 @@ def check_meal(request):
     elif get_db().execute(
             'SELECT * FROM person WHERE id_person = ? AND actif = 1', (person,)
     ).fetchone() is None:
-        return 'You must select a valid user.'
+        print("mes couilles")
+        return 'You must select a valid person.'
 
 
 def check_meal_create(request):
@@ -143,9 +150,11 @@ def info(id):
     meal = get_meal(id)
     db = get_db()
     meal = db.execute(
-        'SELECT id_meal, u.name as uname, m.name as mname, m.information as menuinformation, t.name as tname, m.id_menu as idmenu, c.name as cname, p.information as mealinformation, end as date '
-        'FROM meal p  JOIN menu m ON m.id_menu = p.id_menu JOIN tray t ON t.id_tray = p.id_tray JOIN person u ON p.id_user = u.id_person JOIN person c ON p.id_candidate = c.id_person WHERE id_meal = ?ORDER BY p.id_meal ASC',
-        (id,)
+        'SELECT id_meal, u.name as uname, m.name as mname, m.information as menuinformation, t.name as tname, '
+        'm.id_menu as idmenu, c.name as cname, p.information as mealinformation, end as date FROM meal p  '
+        'JOIN menu m ON m.id_menu = p.id_menu JOIN tray t ON t.id_tray = p.id_tray JOIN person u '
+        'ON p.id_user = u.id_person JOIN person c ON p.id_candidate = c.id_person WHERE id_meal = ?ORDER BY p.id_meal '
+        'ASC', (id,)
     ).fetchone()
     return render_template('meal/info.html', meal=meal, imgname="data/" + str(id) + ".png")
 
@@ -163,6 +172,6 @@ def download(id):
 def delete(id):
     get_meal(id)
     db = get_db()
-    db.execute('UPDATE meal SET actif = 0 WHERE id_tray = ?', (id,))
+    db.execute('UPDATE meal SET actif = 0 WHERE id_meal = ?', (id,))
     db.commit()
     return redirect(url_for('meal.listing'))

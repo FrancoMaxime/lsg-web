@@ -6,6 +6,7 @@ from werkzeug.exceptions import abort
 from lsg_web.auth import login_required, security_required
 from lsg_web.db import get_db
 from lsg_web.food import get_food
+from lsg_web.useful import set_actif
 
 bp = Blueprint('menu', __name__, url_prefix='/menu')
 
@@ -151,9 +152,7 @@ def update(id):
     menu = get_menu(id)
     if request.method == 'POST':
         error = check_menu(request)
-        actif = 0
-        if 'actif' in request.form:
-            actif = request.form['actif']
+        actif = set_actif(request)
 
         if error is not None:
             flash(error)

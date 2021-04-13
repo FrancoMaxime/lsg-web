@@ -48,12 +48,12 @@ def create():
 
             db.execute('UPDATE tray SET on_use = 1 WHERE id_tray = ?', (request.form['tray'],))
             trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (request.form['tray'],)).fetchone()[0]
-            # publish.single("lsg/" + trayname.lower(), "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
+            publish.single("lsg/" + trayname.lower(), "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
             db.commit()
             return redirect(url_for('index'))
 
     menus = get_db().execute('SELECT * FROM menu WHERE actif = 1').fetchall()
-    #trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0 AND online = 1 AND timestamp > datetime("now", "-30 seconds")').fetchall()
+    trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0 AND online = 1 AND timestamp > datetime("now", "-30 seconds")').fetchall()
     trays = get_db().execute('SELECT * FROM tray WHERE actif = 1 AND on_use = 0').fetchall()
     persons = get_db().execute('SELECT * FROM person ORDER BY id_person ASC').fetchall()
     return render_template('meal/create.html', menus=menus, trays=trays, persons=persons)
@@ -86,7 +86,6 @@ def update(id):
 def check_meal(request):
     menu = request.form['menu']
     person = request.form['person']
-    print(person)
     information = request.form['information']
 
     if not menu:
@@ -102,7 +101,6 @@ def check_meal(request):
     elif get_db().execute(
             'SELECT * FROM person WHERE id_person = ? AND actif = 1', (person,)
     ).fetchone() is None:
-        print("mes couilles")
         return 'You must select a valid person.'
 
 

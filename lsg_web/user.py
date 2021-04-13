@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from flask import current_app as app
 
 from lsg_web.useful import set_actif
-from lsg_web.auth import  security_required
+from lsg_web.auth import security_required
 from lsg_web.db import get_db
 from lsg_web.person import get_person
 import os
@@ -125,6 +125,11 @@ def update(id):
         if error is not None:
             flash(error)
         else:
+            db.execute(
+                'UPDATE user SET mail = ?, password = ?, actif = ?, id_permission = ? '
+                'WHERE id_user = ?',
+                (mail, generate_password_hash(password1), actif, permission, id)
+            )
             if 'image' in request.files:
                 if request.files["image"].filename != "":
                     image = request.files["image"]
@@ -132,20 +137,13 @@ def update(id):
                     filename = str(id) + "." + ext
                     image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
                     db.execute(
-                        'UPDATE user SET  mail = ?, password = ?, actif = ?, id_permission = ?, filename= ?'
-                        ' WHERE id_user = ?',
-                        (mail, generate_password_hash(password1), actif, permission, filename, id)
+                        'UPDATE user SET  filename= ? WHERE id_user = ?',
+                        (filename, id)
                     )
-            else:
-                db.execute(
-                    'UPDATE user SET mail = ?, password = ?, actif = ?, id_permission = ?'
-                    ' WHERE id_user = ?',
-                    (mail, generate_password_hash(password1), actif, permission, id)
-                )
 
             db.commit()
             return redirect(url_for('user.listing'))
-    persons = get_db().execute('SELECT * FROM person p LEFT JOIN user u ON p.id_person = u.id_person WHERE u.mail is NULL OR u.id_person = ? ORDER BY id_person ASC', (user['id_person'],) ).fetchall()
+    persons = get_db().execute('SELECT * FROM person p LEFT JOIN user u ON p.id_person = u.id_person WHERE u.mail is NULL OR u.id_person = ? ORDER BY id_person ASC', (user['id_person'],)).fetchall()
     return render_template('user/update.html', user=user, persons=persons)
 
 

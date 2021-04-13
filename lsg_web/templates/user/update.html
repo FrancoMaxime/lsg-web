@@ -70,25 +70,24 @@
                                                 <input id="password2" name="password2" type="password" class="form-control" required>
                                             </div>
                                         </div>
-                                        {% if g.user['id_permission'] == 1 %}
-                                            <div class="col-sm-12">
-                                                <div class="form-group form-group-default form-check">
-                                                    <label for="permission">Permission</label>
-                                                    <select class="form-control" id="permission" name="permission">
-                                                        <option value="1"
-                                                        {% if user['id_permission'] == 1 %}
-                                                            selected="selected"
-                                                        {% endif %}
-                                                        >Administrator</option>
-                                                        <option value="2"
-                                                        {% if user['id_permission'] == 2 %}
-                                                            selected="selected"
-                                                        {% endif %}
-                                                        >Simple User</option>
-                                                    </select>
-                                                </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default form-check">
+                                                <label for="permission">Permission</label>
+                                                <select class="form-control" id="permission" name="permission">
+                                                    <option value="1"
+                                                    {% if user['id_permission'] == 1 %}
+                                                        selected="selected"
+                                                    {% endif %}
+                                                    >Administrator</option>
+                                                    <option value="2"
+                                                    {% if user['id_permission'] == 2 %}
+                                                        selected="selected"
+                                                    {% endif %}
+                                                    >Simple User</option>
+                                                </select>
                                             </div>
-                                        {% endif %}
+                                        </div>
 
                                         <div class="col-sm-12">
                                             <div class="form-group form-show-validation">

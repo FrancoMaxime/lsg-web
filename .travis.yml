@@ -8,4 +8,4 @@ before_script:
   - export FLASK_APP=lsg_web
   - export FLASK_DEBUG=development
 script:
-  - pytest
+  - python -m pytest

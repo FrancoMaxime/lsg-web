@@ -48,7 +48,7 @@ def create():
 
             db.execute('UPDATE tray SET on_use = 1 WHERE id_tray = ?', (request.form['tray'],))
             trayname = db.execute("SELECT name FROM tray WHERE id_tray = ?", (request.form['tray'],)).fetchone()[0]
-            publish.single("lsg/" + trayname.lower(), "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
+            #publish.single("lsg/" + trayname.lower(), "SERVER\tSTART MEAL\t" + str(tmp_id) + ".csv", hostname=app.config['MQTT_BROKER_URL'])
             db.commit()
             return redirect(url_for('index'))
 

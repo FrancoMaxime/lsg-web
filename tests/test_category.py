@@ -51,6 +51,8 @@ def test_create(client, auth, app):
         db = get_db()
         count = db.execute("SELECT COUNT(id_category) FROM category").fetchone()[0]
         assert count == 8
+        category = db.execute("SELECT * FROM category WHERE id_category == 8").fetchone()
+        assert category["name"] == "created"
 
 
 def test_update(client, auth, app):
@@ -62,6 +64,8 @@ def test_update(client, auth, app):
         db = get_db()
         category = db.execute('SELECT * FROM category WHERE id_category = 1').fetchone()
         assert category['name'] == 'updated'
+        count = db.execute("SELECT COUNT(id_category) FROM category").fetchone()[0]
+        assert count == 7
 
 
 @pytest.mark.parametrize("path", ("/category/create", "/category/1/update"))

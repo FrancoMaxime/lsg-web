@@ -58,7 +58,7 @@ def test_exists_required(client, auth):
 
 
 def test_create(client, auth, app):
-    auth.login()
+    auth.login(mail="alice@user.be")
     assert client.get("/menu/create").status_code == 200
     client.post("/menu/create", data={"name": "created", "information": "information created"})
 
@@ -66,6 +66,11 @@ def test_create(client, auth, app):
         db = get_db()
         count = db.execute("SELECT COUNT(id_menu) FROM menu").fetchone()[0]
         assert count == 2
+        menu = db.execute("SELECT * FROM menu WHERE id_menu == 2").fetchone()
+        assert menu["name"] == "created"
+        assert menu["information"] == "information created"
+        assert menu["id_person"] == 3
+        assert menu["actif"] == 1
 
 
 def test_update(client, auth, app):

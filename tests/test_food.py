@@ -43,7 +43,7 @@ def test_exists_required(client, auth):
 
 
 def test_create(client, auth, app):
-    auth.login()
+    auth.login(mail="alice@user.be")
     assert client.get("/food/create").status_code == 200
     client.post("/food/create", data={"name": "created", "category": 1, "information": "created information"})
 
@@ -51,18 +51,25 @@ def test_create(client, auth, app):
         db = get_db()
         count = db.execute("SELECT COUNT(id_food) FROM food").fetchone()[0]
         assert count == 6
+        food = db.execute("SELECT * FROM food WHERE id_food = 6").fetchone()
+        assert food["name"] == "created"
+        assert food["id_category"] == 1
+        assert food["information"] == "created information"
+        assert food["id_person"] == 3
 
 
 def test_update(client, auth, app):
-    auth.login()
+    auth.login(mail="alice@user.be")
     assert client.get('/food/1/update').status_code == 200
-    client.post('/food/1/update', data={"name": "updated", "category": 1, "information": 'information updated'})
+    client.post('/food/1/update', data={"name": "updated", "category": 4, "information": 'information updated'})
 
     with app.app_context():
         db = get_db()
         food = db.execute('SELECT * FROM food WHERE id_food = 1').fetchone()
         assert food['name'] == 'updated'
         assert food['information'] == 'information updated'
+        assert food['id_category'] == 4
+        assert food['id_person'] == 3
 
 
 @pytest.mark.parametrize("path", ("/food/create", "/food/1/update"))

@@ -1,5 +1,6 @@
 import pytest
 from lsg_web.db import get_db
+from datetime import date
 
 
 def test_listing(client, auth):
@@ -56,6 +57,12 @@ def test_create(client, auth, app):
         db = get_db()
         count = db.execute("SELECT COUNT(id_person) FROM person").fetchone()[0]
         assert count == 7
+        person = db.execute("SELECT * FROM person WHERE id_person = 7").fetchone()
+        d = date(1991, 8, 27)
+        assert person["name"] == "created"
+        assert person["gender"] == "homme"
+        assert person["weight"] == 65
+        assert person["birthdate"] == d
 
 
 def test_update(client, auth, app):
@@ -85,7 +92,8 @@ def test_update(client, auth, app):
 @pytest.mark.parametrize("path", ("/person/create", "/person/1/update"))
 def test_create_update_validate(client, auth, path):
     auth.login()
-    response = client.post(path, data={"name": "", "birthdate": "1991-08-27", "gender": "homme", "weight": "65", "actif": 1})
+    response = client.post(path,
+                           data={"name": "", "birthdate": "1991-08-27", "gender": "homme", "weight": "65", "actif": 1})
     assert b"Name is required." in response.data
     response = client.post(path, data={"name": "Flip", "birthdate": "", "gender": "homme", "weight": "65"})
     assert b"You must enter a valid birthdate." in response.data
@@ -93,8 +101,12 @@ def test_create_update_validate(client, auth, path):
     assert b"You must select a gender." in response.data
     response = client.post(path, data={"name": "Flip", "birthdate": "1991-08-27", "gender": "homme", "weight": ""})
     assert b"You must enter a weight." in response.data
-    response = client.post(path, data={"name": "Flip", "birthdate": "19999991-08-27", "gender": "homme", "weight": "65"})
+    response = client.post(path,
+                           data={"name": "Flip", "birthdate": "19999991-08-27", "gender": "homme", "weight": "65"})
     assert b"You must enter a valid birthdate." in response.data
+    response = client.post(path,
+                           data={"name": "Flip", "birthdate": "1991-08-27", "gender": "homme", "weight": "fefefe"})
+    assert b"You must enter a valid weight." in response.data
 
 
 def test_delete(client, auth, app):

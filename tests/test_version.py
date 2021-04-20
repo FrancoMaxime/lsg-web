@@ -1,5 +1,6 @@
 import pytest
 from lsg_web.db import get_db
+from datetime import date
 
 
 def test_listing(client, auth):
@@ -37,6 +38,10 @@ def test_create(client, auth, app):
         db = get_db()
         count = db.execute("SELECT COUNT(id_version) FROM version").fetchone()[0]
         assert count == 3
+        version = db.execute("SELECT * FROM version WHERE id_version = 3").fetchone()
+        assert version["name"] == "created"
+        r = date(1991, 8, 27)
+        assert version["release_date"] == r
 
 
 def test_create_validate(client, auth):

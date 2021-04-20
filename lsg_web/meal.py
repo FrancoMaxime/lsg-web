@@ -65,16 +65,15 @@ def update(id):
     meal = get_meal(id)
     if request.method == 'POST':
         error = check_meal(request)
-        actif = set_actif(request)
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
-            db.execute('UPDATE meal SET id_menu = ?, id_user = ?, id_candidate = ?, information = ?, actif = ? '
+            db.execute('UPDATE meal SET id_menu = ?, id_user = ?, id_candidate = ?, information = ?'
                        'WHERE id_meal = ?',
                        (request.form['menu'], g.user['id_person'], request.form['person'], request.form['information'],
-                        actif, id))
+                        id))
             db.commit()
             return redirect(url_for('meal.listing'))
 

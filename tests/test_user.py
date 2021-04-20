@@ -56,8 +56,9 @@ def test_create(client, auth, app):
         assert count == 5
         user = db.execute("SELECT * FROM user WHERE id_user= 5").fetchone()
         assert user['filename'] == "simple_user.png"
+        assert user['id_permission'] == 2
 
-    data = {"person": "6", "mail": "Michel@user.be", "password1": "admin", "password2": "admin", "permission": "1"}
+    data = {"person": "6", "mail": "michel@user.be", "password1": "admin", "password2": "admin", "permission": "1"}
     data = {key: str(value) for key, value in data.items()}
     data['image'] = (io.BytesIO(b"abcdef"), 'test.jpg')
     client.post("/user/create", data=data, follow_redirects=True, content_type='multipart/form-data')
@@ -65,6 +66,9 @@ def test_create(client, auth, app):
         db = get_db()
         user = db.execute("SELECT * FROM user WHERE id_user= 6").fetchone()
         assert user['filename'] == "6.jpg"
+        assert user['id_person'] == 6
+        assert user['mail'] == "michel@user.be"
+        assert user['id_permission'] == 1
 
 
 def test_update(client, auth, app):

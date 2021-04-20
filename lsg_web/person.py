@@ -81,10 +81,15 @@ def check_person(request):
         error = 'Name is required.'
     elif not request.form['birthdate']:
         error = 'You must enter a birthdate.'
-    elif not request.form['gender'] :
+    elif not request.form['gender']:
         error = 'You must select a gender.'
     elif not request.form['weight']:
         error = 'You must enter a weight.'
+    elif request.form['weight']:
+        try:
+            float(request.form['weight'])
+        except ValueError:
+            error = "You must enter a valid weight."
 
     is_valid = True
     try:

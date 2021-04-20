@@ -1,5 +1,6 @@
 import pytest
 from lsg_web.db import get_db
+from datetime import date
 
 
 def test_listing(client, auth):
@@ -46,6 +47,12 @@ def test_create(client, auth, app):
         db = get_db()
         count = db.execute("SELECT COUNT(id_bug) FROM bug").fetchone()[0]
         assert count == 2
+        bug = db.execute("SELECT * FROM bug WHERE id_bug = 2").fetchone()
+        now = date.today()
+        assert bug["title"] == "created"
+        assert bug["information"] == "information about the bug"
+        assert bug["corrected"] == 0
+        assert bug["bug_date"] == now
 
 
 def test_create_validate(client, auth):

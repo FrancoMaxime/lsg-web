@@ -74,18 +74,6 @@
                                                 <input name="information" id="information" type="text" class="form-control" placeholder="Enter information" value="{{ meal['information'] }}" required>
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-12">
-                                            <div class="form-group form-group-default">
-                                                <label>Actif</label>
-                                                <input name="actif" id="actif" type="checkbox" data-toggle="toggle"
-                                                {% if meal['actif'] == 1 %}
-                                                    checked
-                                                {% endif %}
-                                                >
-                                            </div>
-                                        </div>
-
                                     </div>
                                     <button type="submit" id="addRowButton" class="btn btn-warning btn-lg btn-block">Update</button>
                                 </form>

@@ -50,6 +50,7 @@ def test_create(client, auth, app):
         assert tray['name'] == "created"
         assert tray['information'] == "information created"
         assert tray['id_version'] == 1
+        assert tray['actif'] == 1
 
 
 def test_update(client, auth, app):

@@ -43,9 +43,10 @@ def test_exists_required(client, auth):
 
 
 def test_create(client, auth, app):
-    auth.login()
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    auth.login(mail="alice@user.be")
     assert client.get("/meal/create").status_code == 200
-    client.post("/meal/create", data={"menu": "1", "person": "3", "tray": 1, "information": "created information"})
+    client.post("/meal/create", data={"menu": "1", "person": "4", "tray": 1, "information": "created information"})
 
     with app.app_context():
         db = get_db()
@@ -54,20 +55,33 @@ def test_create(client, auth, app):
         meal = db.execute('SELECT * FROM meal WHERE id_meal = 2').fetchone()
         assert meal['information'] == 'created information'
         assert meal['id_menu'] == 1
-        assert meal['id_candidate'] == 3
+        assert meal['id_candidate'] == 4
+        assert meal['id_meal'] == 2
+        assert meal['id_user'] == 3
+        assert meal['id_tray'] == 1
+        assert meal['actif'] == 1
+        assert now <= meal['start']
 
 
 def test_update(client, auth, app):
-    auth.login()
-    assert client.get('/meal/1/update').status_code == 200
-    client.post('/meal/1/update', data={"menu": "1", "person": "4", "information": "information updated"})
+    auth.login(mail="alice@user.be")
 
     with app.app_context():
+        assert client.get('/meal/1/update').status_code == 200
         db = get_db()
+        meal_p = db.execute('SELECT * FROM meal WHERE id_meal = 1').fetchone()
+        client.post('/meal/1/update', data={"menu": "1", "person": "5", "information": "information updated"})
         meal = db.execute('SELECT * FROM meal WHERE id_meal = 1').fetchone()
         assert meal['information'] == 'information updated'
         assert meal['id_menu'] == 1
-        assert meal['id_candidate'] == 4
+        assert meal['id_candidate'] == 5
+        assert meal_p['start'] == meal['start']
+        assert meal_p['actif'] == meal['actif']
+        assert meal_p['end'] == meal['end']
+        assert meal_p['id_tray'] == meal['id_tray']
+        assert meal_p['id_tray'] == meal['id_tray']
+        assert meal_p['id_user'] != meal['id_user']
+        assert meal['id_user'] == 3
 
 
 def test_create_validate(client, auth):
